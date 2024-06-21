@@ -5,6 +5,7 @@ import Context from './globalcontext/globalcontext';
 import ProtectRouter from './helpers/protectrouter';
 import RegisterValidation from './page/registervalidation';
 import Registers from './page/registers';
+import NewRegister from './components/newregister';
 
 function App() {
   return (
@@ -13,6 +14,8 @@ function App() {
         <Routes>
           <Route path='/login' element={<Login />} />
           <Route path='/' element={<Registers />} />
+          <Route path='/novoregistro' element={<NewRegister />} />
+
           <Route
             path='/register/validation'
             element={
