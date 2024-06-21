@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { loginStaff } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../globalcontext/globalcontext';
@@ -12,8 +12,16 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const { setUser, setCardNumber, setToken } = useContext(GlobalContext);
+  const { setId, setLogin, setUser, setCardNumber, setToken } =
+    useContext(GlobalContext);
 
+  useEffect(() => {
+    const time = setTimeout(() => {
+      setError(null);
+    }, 3000);
+
+    return () => clearTimeout(time);
+  }, [isError]);
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
@@ -28,8 +36,11 @@ const Login = () => {
         setError(null);
         setUser(isName);
         setToken(data.token);
+        localStorage.setItem('token', data.token);
         setCardNumber(data.staff.cartao);
-        navigate('/home');
+        setId(data.staff.id);
+        setLogin(true);
+        navigate('/');
       }
     } else {
       setError('preencha todas os campos');
@@ -72,7 +83,11 @@ const Login = () => {
         </button>
       </form>
 
-      {isError ? <div>{isError}</div> : null}
+      {isError ? (
+        <div className=' opacity-0 translate-x-[-100px] animate-animationleft  w-full shadow mt-10 flex items-center justify-center border-l-2 border-yellow-600 py-4'>
+          {isError}
+        </div>
+      ) : null}
     </main>
   );
 };

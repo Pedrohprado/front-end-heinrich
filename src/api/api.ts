@@ -1,4 +1,10 @@
-const url: string = import.meta.env.VITE_BASE_URL_URL_API;
+export const url: string = import.meta.env.VITE_BASE_URL_URL_API;
+
+export const verificToken = async () => {
+  const token = localStorage.getItem('token');
+  if (token) return true;
+  else return false;
+};
 
 export const loginStaff = async (
   name: string,
