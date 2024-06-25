@@ -1,25 +1,24 @@
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
-import { verificToken } from '../api/api';
 
 interface TypeGlobalContext {
-  setUser: (isUser: string | null) => void;
+  setUser: (user: string | null) => void;
   isUser: string | null;
-  isCardNumber: number | null;
+  isCardNumber: string | null;
   isToken: string | null;
   isLogin: boolean;
   isId: number | null;
-  setLogin: (isLogin: boolean) => void;
-  setToken: (isToken: string | null) => void;
-  setCardNumber: (isCardNumber: number | null) => void;
-  setId: (isId: number | null) => void;
+  setLogin: (loggedIn: boolean) => void;
+  setToken: (token: string | null) => void;
+  setCardNumber: (cardNumber: string | null) => void;
+  setId: (id: number | null) => void;
 }
 
 const initialContext: TypeGlobalContext = {
   setUser: () => {},
   isUser: null,
   isCardNumber: null,
-  isToken: null,
-  isLogin: false,
+  isToken: localStorage.getItem('token'),
+  isLogin: !!localStorage.getItem('token'),
   isId: null,
   setLogin: () => {},
   setToken: () => {},
@@ -31,28 +30,18 @@ export const GlobalContext = createContext<TypeGlobalContext>(initialContext);
 
 const Context: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isUser, setUser] = useState<string | null>(null);
-  const [isCardNumber, setCardNumber] = useState<number | null>(null);
-  const [isToken, setToken] = useState<string | null>(null);
+  const [isCardNumber, setCardNumber] = useState<string | null>(null);
+  const [isToken, setToken] = useState<string | null>(
+    localStorage.getItem('token')
+  );
   const [isId, setId] = useState<number | null>(null);
 
-  const [isLogin, setLogin] = useState<boolean>(false);
+  const [isLogin, setLogin] = useState<boolean>(
+    !!localStorage.getItem('token')
+  );
 
   useEffect(() => {
-    async function verifc() {
-      const token = await verificToken();
-      if (token) setLogin(true);
-      else setLogin(false);
-    }
-
-    verifc();
-  }, []);
-
-  useEffect(() => {
-    if (isToken) {
-      setLogin(true);
-      console.log('logado');
-    }
-    if (!isToken) setLogin(false);
+    setLogin(!!isToken);
   }, [isToken]);
 
   return (

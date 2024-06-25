@@ -1,7 +1,5 @@
-import React from 'react';
-
 function RegisterValidation() {
-  return <div>teste</div>;
+  return <main>oi</main>;
 }
 
 export default RegisterValidation;

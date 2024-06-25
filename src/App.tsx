@@ -1,11 +1,11 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import Login from './page/login';
 import Context from './globalcontext/globalcontext';
 import ProtectRouter from './helpers/protectrouter';
 import RegisterValidation from './page/registervalidation';
 import Registers from './page/registers';
 import NewRegister from './components/newregister';
+import Login from './page/login';
 
 function App() {
   return (

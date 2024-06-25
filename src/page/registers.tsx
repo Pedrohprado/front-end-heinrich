@@ -13,18 +13,11 @@ const Registers = () => {
   useEffect(() => {
     const getAllRegisters = async () => {
       try {
-        if (isLogin) {
-          const response = await fetch(`${url}/showallregisterneedvalidation`);
-          const data = await response.json();
-          setRegisters(data);
-          console.log(data);
-        } else {
-          const response = await fetch(`${url}/showallregister`);
-          const data = await response.json();
-          setRegisters(data);
-          console.log(data);
-          console.log('n');
-        }
+        const response = await fetch(`${url}/showallregister`);
+        const data = await response.json();
+        setRegisters(data);
+        console.log(data);
+        console.log('n');
       } catch (error) {
         console.log('erro ao fazer login', error);
       }
