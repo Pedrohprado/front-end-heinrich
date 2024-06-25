@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { url } from '../api/api';
-import { GlobalContext } from '../globalcontext/globalcontext';
 import { TypeRegister } from '../types/typesRegisters';
 
 import { FaPlus } from 'react-icons/fa';
@@ -8,7 +7,6 @@ import { Link } from 'react-router-dom';
 import ListRegisters from '../components/listregisters';
 
 const Registers = () => {
-  const { isLogin } = useContext(GlobalContext);
   const [isRegisters, setRegisters] = useState<TypeRegister[] | null>(null);
 
   useEffect(() => {
@@ -25,7 +23,7 @@ const Registers = () => {
     };
 
     getAllRegisters();
-  }, [isLogin]);
+  }, []);
   return (
     <main className=' w-full h-screen p-10 flex flex-col text-zinc-900'>
       <h1 className=' font-bold text-xl mb-5'>Registros</h1>

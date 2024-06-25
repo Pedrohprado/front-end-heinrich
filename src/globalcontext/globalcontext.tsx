@@ -1,4 +1,5 @@
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
+import { verifyToken } from '../api/api';
 
 interface TypeGlobalContext {
   setUser: (user: string | null) => void;
@@ -39,6 +40,32 @@ const Context: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isLogin, setLogin] = useState<boolean>(
     !!localStorage.getItem('token')
   );
+
+  const loadUserFromToken = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      console.log(token);
+      if (token) {
+        const data = await verifyToken(token); // Implemente esta função na sua API
+        console.log(data);
+        setUser(data.nome);
+        setCardNumber(data.cartao);
+        setId(data.id);
+        setLogin(true);
+      } else {
+        setLogin(false);
+      }
+    } catch (error) {
+      console.error('Erro ao verificar token no frontend', error);
+      setLogin(false);
+      setToken(null);
+      localStorage.removeItem('token');
+    }
+  };
+
+  useEffect(() => {
+    loadUserFromToken();
+  }, []);
 
   useEffect(() => {
     setLogin(!!isToken);

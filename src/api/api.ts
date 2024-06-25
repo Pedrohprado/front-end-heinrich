@@ -2,6 +2,23 @@ import { TypeCreatedRegister } from '../types/typesRegisters';
 
 export const url: string = import.meta.env.VITE_BASE_URL_URL_API;
 
+export const verifyToken = async (token: string) => {
+  const response = await fetch(`${url}/verifytoken`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || 'Erro ao verificar token');
+  }
+
+  return response.json();
+};
+
 export const loginStaff = async (
   name: string,
   card: string | number,
