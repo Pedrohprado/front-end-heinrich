@@ -34,6 +34,7 @@ const NewRegister = () => {
         nivelDoOcorrido: isLevelWhatHappened,
         descricao: isDescription,
       };
+      console.log(form);
       const status = await createdNewRegister(form);
 
       if (status.warning) setError(status.warning);
@@ -47,8 +48,7 @@ const NewRegister = () => {
   return (
     <main className=' w-full h-screen p-10 flex flex-col text-zinc-900'>
       <h1 className='font-bold text-xl mb-5'>Registrar novo ocorrido</h1>
-
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className='flex flex-col gap-6'>
         <label className=' flex flex-col font-medium text-sm gap-1'>
           Nome
           <input
@@ -91,6 +91,7 @@ const NewRegister = () => {
             className=' px-2 py-3 border rounded-md font-light'
             onChange={(event) => setLevelWhatHappened(event.target.value)}
           >
+            <option value='qual o nível do ocorrido?' hidden></option>
             <option value='ato inseguro'>ato inseguro</option>
             <option value='condição insegura'>condição insegura</option>
             <option value='quase acidente'>quase acidente</option>
