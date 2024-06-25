@@ -17,7 +17,7 @@ function App() {
           <Route path='/novoregistro' element={<NewRegister />} />
 
           <Route
-            path='/register/validation'
+            path='/registrosparavalidacao'
             element={
               <ProtectRouter>
                 <RegisterValidation />

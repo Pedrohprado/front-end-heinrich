@@ -62,7 +62,7 @@ const Login = () => {
           <input
             value={isCard}
             onChange={(event) => setCard(event.target.value)}
-            type='number'
+            type='text'
             className='px-2 py-3 border rounded-md font-light'
           />
         </label>
