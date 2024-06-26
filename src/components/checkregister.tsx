@@ -45,32 +45,53 @@ const CheckRegister = ({
         </button>
         <div className='flex flex-col mt-10 gap-2'>
           <button
-            className=' shadow-sm pb-2 flex items-center justify-around text-sm font-bold text-zinc-700'
+            className=' shadow-sm p-2 flex items-center justify-between text-sm font-bold text-zinc-700 w-full'
             onClick={() => toggleList(1)}
           >
-            <IoMdInformationCircle />
-            informações
-            <IoIosArrowForward />
+            <span className='flex items-center justify-center gap-2'>
+              <IoMdInformationCircle />
+              informações
+            </span>
+
+            {isOpenList === 1 ? <IoIosArrowDown /> : <IoIosArrowForward />}
           </button>
-          {isOpenList === 1 && <div>informações</div>}
+          {isOpenList === 1 && (
+            <div className=' opacity-0 translate-y-[-10px] animate-animationleft '>
+              informações
+            </div>
+          )}
           <button
-            className=' shadow-sm pb-2 flex items-center justify-around text-sm font-bold text-zinc-700'
+            className=' shadow-sm p-2 flex items-center justify-between text-sm font-bold text-zinc-700 w-full'
             onClick={() => toggleList(2)}
           >
-            <AiFillMedicineBox />
-            ambulatório
-            <IoIosArrowForward />
+            <span className='flex items-center justify-center gap-2'>
+              <AiFillMedicineBox />
+              ambulatório
+            </span>
+
+            {isOpenList === 2 ? <IoIosArrowDown /> : <IoIosArrowForward />}
           </button>
-          {isOpenList === 2 && <div>informações</div>}
+          {isOpenList === 2 && (
+            <div className=' opacity-0 translate-y-[-10px] animate-animationleft '>
+              informações
+            </div>
+          )}
           <button
-            className=' shadow-sm pb-2 flex items-center justify-around text-sm font-bold text-zinc-700'
+            className=' shadow-sm p-2 flex items-center justify-between text-sm font-bold text-zinc-700 w-full'
             onClick={() => toggleList(3)}
           >
-            <FaHelmetSafety />
-            segurança do trabalho
-            <IoIosArrowForward />
+            <span className='flex items-center justify-center gap-2'>
+              <FaHelmetSafety />
+              segurança do trabalho
+            </span>
+
+            {isOpenList === 3 ? <IoIosArrowDown /> : <IoIosArrowForward />}
           </button>
-          {isOpenList === 3 && <div>informações</div>}
+          {isOpenList === 3 && (
+            <div className=' opacity-0 translate-y-[-10px] animate-animationleft '>
+              informações
+            </div>
+          )}
         </div>
       </div>
     </section>
