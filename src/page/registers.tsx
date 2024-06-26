@@ -51,7 +51,7 @@ const Registers = () => {
         'sem registros no momento'
       )}
 
-      <div className=' fixed bottom-5 right-0 w-full z-10  flex'>
+      <div className=' fixed bottom-5 right-0 w-full z-10 flex'>
         <Link
           to={'/novoregistro'}
           className=' bottom-5 m-auto bg-slate-300 rounded-full p-3'

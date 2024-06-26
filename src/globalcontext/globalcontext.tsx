@@ -61,7 +61,7 @@ const Context: React.FC<{ children: ReactNode }> = ({ children }) => {
         setLogin(false);
       }
     } catch (error) {
-      console.error('Erro ao verificar token no frontend', error);
+      console.error('sem token salvo!', error);
       setLogin(false);
       setToken(null);
       localStorage.removeItem('token');

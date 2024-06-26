@@ -12,23 +12,33 @@ import { GlobalContext } from '../globalcontext/globalcontext';
 
 const Header = () => {
   const [isMenuOpen, setMenuOpen] = useState<boolean>(false);
+  const { isLogin, setLogin, setToken } = useContext(GlobalContext);
 
-  const { isLogin } = useContext(GlobalContext);
+  function handleLogout() {
+    setLogin(false);
+    setToken(null);
+    localStorage.removeItem('token');
+  }
 
   if (!isLogin) return null;
   return (
-    <header className='w-full h-14 shadow bg-white flex justify-end items-center py-2 px-10 absolute z-10'>
+    <header className='w-full h-14 shadow bg-white flex justify-end items-center py-2 px-10 absolute z-20 '>
       <button
         onClick={() => setMenuOpen(!isMenuOpen)}
-        className='bg-slate-500 p-1 rounded-sm transition '
+        className={` p-1 rounded border ${
+          isMenuOpen
+            ? ' fixed top-2 right-[212px] bg-white text-zinc-900 opacity-0 translate-x-[100px] animate-animationleft'
+            : 'bg-zinc-900 text-white '
+        }`}
       >
         {isMenuOpen ? <RiCloseFill size={24} /> : <RiMenu3Fill size={24} />}
       </button>
 
       {isMenuOpen && (
-        <div className=' bg-white shadow w-2/3 top-11 right-10 fixed z-20 flex flex-col p-4 gap-5'>
+        <div className='bg-white border shadow w-2/3 h-full top-2 right-0 fixed flex flex-col px-2 py-1  gap-5 opacity-0 translate-x-[100px] animate-animationleft'>
+          <p className=' border-b pb-1 font-medium text-lg'>Menu</p>
           <Link
-            className=' flex items-center gap-2'
+            className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft'
             onClick={() => setMenuOpen(!isMenuOpen)}
             to={'/'}
           >
@@ -36,7 +46,7 @@ const Header = () => {
             Início
           </Link>
           <Link
-            className=' flex items-center gap-2'
+            className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft'
             onClick={() => setMenuOpen(!isMenuOpen)}
             to={'/registrosparavalidacao'}
           >
@@ -44,7 +54,7 @@ const Header = () => {
             Validar
           </Link>
           <Link
-            className=' flex items-center gap-2'
+            className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft'
             onClick={() => setMenuOpen(!isMenuOpen)}
             to={'/novoregistro'}
           >
@@ -53,7 +63,7 @@ const Header = () => {
           </Link>
 
           <Link
-            className=' flex items-center gap-2'
+            className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft'
             onClick={() => setMenuOpen(!isMenuOpen)}
             to={'/novostaff'}
           >
@@ -61,8 +71,10 @@ const Header = () => {
             Novo staff
           </Link>
 
-          <button className=' flex items-center gap-2 bg-slate-300'>
-            {' '}
+          <button
+            onClick={handleLogout}
+            className=' flex items-center gap-2  translate-y-[-100px] animate-animationleft'
+          >
             <IoExitOutline />
             sair
           </button>
