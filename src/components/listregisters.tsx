@@ -3,6 +3,7 @@ import { FaCheck, FaCircleNotch } from 'react-icons/fa';
 import { TypeRegister } from '../types/typesRegisters';
 import React, { useState } from 'react';
 import CheckRegister from './checkregister';
+import Tag from './tag';
 
 interface Props {
   isRegisters: TypeRegister[];
@@ -29,29 +30,7 @@ const ListRegisters: React.FC<Props> = ({ isRegisters, authorized }) => {
             className=' rounded-md border w-full p-3 flex flex-col gap-5'
           >
             <div className=' flex items-center justify-between gap-2'>
-              <p
-                className={`${
-                  register.nivelDoOcorrido === 'ato inseguro'
-                    ? ' border-green-950 bg-green-200 text-green-900'
-                    : register.nivelDoOcorrido === 'condição insegura'
-                    ? ' border-green-700 bg-green-200 text-green-900'
-                    : register.nivelDoOcorrido === 'quase acidente'
-                    ? ' border-green-600 bg-green-200 text-green-900'
-                    : register.nivelDoOcorrido === 'primeiros socorros'
-                    ? ' border-yellow-600 bg-yellow-200 text-yellow-900'
-                    : register.nivelDoOcorrido === 'acidente leve'
-                    ? ' border-orange-500 bg-orange-200 text-orange-900'
-                    : register.nivelDoOcorrido === 'acidente moderado'
-                    ? ' border-red-500 bg-red-200 text-red-900'
-                    : register.nivelDoOcorrido === 'acidente grave'
-                    ? ' border-red-600 bg-red-200 text-red-900'
-                    : register.nivelDoOcorrido === 'fatalidade'
-                    ? ' border-red-800 bg-red-200 text-red-900'
-                    : ''
-                } w-full flex justify-center items-center rounded-md font-medium`}
-              >
-                {register.nivelDoOcorrido}
-              </p>
+              <Tag level={register.nivelDoOcorrido} />
               <p className=' text-sm font-medium'>
                 {new Date(register.createdAt).toLocaleDateString('pt-br')}
               </p>

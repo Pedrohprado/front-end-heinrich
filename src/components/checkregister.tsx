@@ -1,3 +1,4 @@
+//I need created a new inputs for register, when, i register why staff validated register, and add new inputs for ambulatório
 import { useEffect, useState } from 'react';
 import { url } from '../api/api';
 import {
@@ -9,6 +10,8 @@ import {
 
 import { FaHelmetSafety } from 'react-icons/fa6';
 import { AiFillMedicineBox } from 'react-icons/ai';
+import { TypeRegister } from '../types/typesRegisters';
+import Tag from './tag';
 
 const CheckRegister = ({
   setPageValidation,
@@ -18,7 +21,7 @@ const CheckRegister = ({
   isId: number | null;
 }) => {
   const [isOpenList, setOpenList] = useState<number | null>(null);
-
+  const [isRegister, setRegister] = useState<TypeRegister | null>(null);
   const toggleList = (barNumber: number) => {
     if (isOpenList == barNumber) {
       setOpenList(null);
@@ -30,6 +33,7 @@ const CheckRegister = ({
     async function getUniqueRegisterById() {
       const response = await fetch(`${url}/showuniqueregister/${isId}`);
       const data = await response.json();
+      setRegister(data);
       console.log(data);
     }
     if (isId) getUniqueRegisterById();
@@ -55,9 +59,14 @@ const CheckRegister = ({
 
             {isOpenList === 1 ? <IoIosArrowDown /> : <IoIosArrowForward />}
           </button>
-          {isOpenList === 1 && (
-            <div className=' opacity-0 translate-y-[-10px] animate-animationleft '>
-              informações
+          {isOpenList === 1 && isRegister && (
+            <div className=' opacity-0 translate-y-[-10px] animate-animationleft w-full flex flex-col p-2 gap-2'>
+              <Tag level={isRegister.nivelDoOcorrido} />
+              <div className=' flex items-center justify-between'>
+                <p>{new Date(isRegister.createdAt).toLocaleDateString()}</p>
+                <p>{isRegister.setor}</p>
+              </div>
+              <p className=' text-zinc-600'>{isRegister.descricao}</p>
             </div>
           )}
           <button
@@ -88,9 +97,11 @@ const CheckRegister = ({
             {isOpenList === 3 ? <IoIosArrowDown /> : <IoIosArrowForward />}
           </button>
           {isOpenList === 3 && (
-            <div className=' opacity-0 translate-y-[-10px] animate-animationleft '>
-              informações
-            </div>
+            <form className=' opacity-0 translate-y-[-10px] animate-animationleft w-full flex flex-col p-2 gap-2'>
+              <label>
+                <input type='text' />
+              </label>
+            </form>
           )}
         </div>
       </div>
