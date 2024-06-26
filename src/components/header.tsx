@@ -21,6 +21,7 @@ const Header = () => {
   }
 
   if (!isLogin) return null;
+
   return (
     <header className='w-full h-14 shadow bg-white flex justify-end items-center py-2 px-10 absolute z-20 '>
       <button
@@ -36,40 +37,45 @@ const Header = () => {
 
       {isMenuOpen && (
         <div className='bg-white border shadow w-2/3 h-full top-2 right-0 fixed flex flex-col px-2 py-1  gap-5 opacity-0 translate-x-[100px] animate-animationleft'>
-          <p className=' border-b pb-1 font-medium text-lg'>Menu</p>
-          <Link
-            className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft'
-            onClick={() => setMenuOpen(!isMenuOpen)}
-            to={'/'}
-          >
-            <IoHomeSharp />
-            Início
-          </Link>
-          <Link
-            className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft'
-            onClick={() => setMenuOpen(!isMenuOpen)}
-            to={'/registrosparavalidacao'}
-          >
-            <IoCheckboxOutline />
-            Validar
-          </Link>
-          <Link
-            className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft'
-            onClick={() => setMenuOpen(!isMenuOpen)}
-            to={'/novoregistro'}
-          >
-            <IoPencilSharp />
-            Novo registro
-          </Link>
+          <div>
+            <div className=' w-10 h-10 rounded-full bg-slate-500'></div>
+          </div>
+          <nav className=' w-full flex flex-col gap-1'>
+            <p className=' font-medium text-lg mb-1'>Menu</p>
+            <Link
+              className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft shadow-sm py-2'
+              onClick={() => setMenuOpen(!isMenuOpen)}
+              to={'/'}
+            >
+              <IoHomeSharp />
+              Início
+            </Link>
+            <Link
+              className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft'
+              onClick={() => setMenuOpen(!isMenuOpen)}
+              to={'/registrosparavalidacao'}
+            >
+              <IoCheckboxOutline />
+              Validar
+            </Link>
+            <Link
+              className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft'
+              onClick={() => setMenuOpen(!isMenuOpen)}
+              to={'/novoregistro'}
+            >
+              <IoPencilSharp />
+              Novo registro
+            </Link>
 
-          <Link
-            className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft'
-            onClick={() => setMenuOpen(!isMenuOpen)}
-            to={'/novostaff'}
-          >
-            <IoPersonAdd />
-            Novo staff
-          </Link>
+            <Link
+              className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft'
+              onClick={() => setMenuOpen(!isMenuOpen)}
+              to={'/novostaff'}
+            >
+              <IoPersonAdd />
+              Novo staff
+            </Link>
+          </nav>
 
           <button
             onClick={handleLogout}
