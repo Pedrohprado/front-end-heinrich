@@ -46,7 +46,7 @@ const Login = () => {
 
   return (
     <main className='w-full h-screen px-10 py-24 flex flex-col text-zinc-900'>
-      <h1 className='font-bold text-xl mb-5'>Login Staff</h1>
+      <h1 className='font-bold text-xl mb-5'>Identificação</h1>
       <form className='flex flex-col gap-6' onSubmit={handleSubmit}>
         <label className='flex flex-col font-medium text-sm gap-1'>
           Nome

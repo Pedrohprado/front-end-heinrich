@@ -3,6 +3,8 @@ import { verifyToken } from '../api/api';
 
 interface TypeGlobalContext {
   setUser: (user: string | null) => void;
+  setErrorGlobal: (error: string | null) => void;
+  isErrorGlobal: string | null;
   isUser: string | null;
   isCardNumber: string | null;
   isToken: string | null;
@@ -16,6 +18,8 @@ interface TypeGlobalContext {
 
 const initialContext: TypeGlobalContext = {
   setUser: () => {},
+  setErrorGlobal: () => {},
+  isErrorGlobal: null,
   isUser: null,
   isCardNumber: null,
   isToken: localStorage.getItem('token'),
@@ -30,6 +34,7 @@ const initialContext: TypeGlobalContext = {
 export const GlobalContext = createContext<TypeGlobalContext>(initialContext);
 
 const Context: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [isErrorGlobal, setErrorGlobal] = useState<string | null>(null);
   const [isUser, setUser] = useState<string | null>(null);
   const [isCardNumber, setCardNumber] = useState<string | null>(null);
   const [isToken, setToken] = useState<string | null>(
@@ -46,11 +51,11 @@ const Context: React.FC<{ children: ReactNode }> = ({ children }) => {
       const token = localStorage.getItem('token');
       console.log(token);
       if (token) {
-        const data = await verifyToken(token); // Implemente esta função na sua API
-        console.log(data);
+        const data = await verifyToken(token);
         setUser(data.nome);
         setCardNumber(data.cartao);
         setId(data.id);
+        console.log(data.id);
         setLogin(true);
       } else {
         setLogin(false);
@@ -74,6 +79,8 @@ const Context: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <GlobalContext.Provider
       value={{
+        isErrorGlobal,
+        setErrorGlobal,
         isId,
         setId,
         isLogin,

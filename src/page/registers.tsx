@@ -1,13 +1,26 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { url } from '../api/api';
 import { TypeRegister } from '../types/typesRegisters';
 
 import { FaPlus } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import ListRegisters from '../components/listregisters';
+import { GlobalContext } from '../globalcontext/globalcontext';
 
 const Registers = () => {
   const [isRegisters, setRegisters] = useState<TypeRegister[] | null>(null);
+
+  const { isErrorGlobal, setErrorGlobal } = useContext(GlobalContext);
+
+  useEffect(() => {
+    if (isErrorGlobal) {
+      const teste = setTimeout(() => {
+        setErrorGlobal(null);
+      }, 10000);
+
+      return () => clearTimeout(teste);
+    }
+  }, [isErrorGlobal, setErrorGlobal]);
 
   useEffect(() => {
     const getAllRegisters = async () => {
@@ -25,7 +38,12 @@ const Registers = () => {
     getAllRegisters();
   }, []);
   return (
-    <main className=' w-full h-screen p-10 flex flex-col text-zinc-900'>
+    <main className=' w-full h-screen p-10 flex flex-col text-zinc-900 relative'>
+      {isErrorGlobal ? (
+        <p className='fixed top-8 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-3 border rounded bg-white z-20'>
+          {isErrorGlobal}
+        </p>
+      ) : null}
       <h1 className=' font-bold text-xl mb-5'>Registros</h1>
       {isRegisters ? (
         <ListRegisters isRegisters={isRegisters} />
