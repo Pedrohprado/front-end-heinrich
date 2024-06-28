@@ -38,7 +38,7 @@ const Registers = () => {
     getAllRegisters();
   }, []);
   return (
-    <main className=' w-full h-screen p-10 flex flex-col text-zinc-900 relative'>
+    <main className=' w-full h-screen p-10 pt-[20%] flex flex-col text-zinc-900 relative'>
       {isErrorGlobal ? (
         <p className='fixed top-8 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-3 border rounded bg-white z-20'>
           {isErrorGlobal}
@@ -46,7 +46,7 @@ const Registers = () => {
       ) : null}
       <h1 className=' font-bold text-xl mb-5'>Registros</h1>
       {isRegisters ? (
-        <ListRegisters isRegisters={isRegisters} />
+        <ListRegisters isRegisters={isRegisters} authorized={null} />
       ) : (
         'sem registros no momento'
       )}

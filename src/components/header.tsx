@@ -28,7 +28,7 @@ const Header = () => {
         onClick={() => setMenuOpen(!isMenuOpen)}
         className={` p-1 rounded border ${
           isMenuOpen
-            ? ' fixed top-2 right-[212px] bg-white text-zinc-900 opacity-0 translate-x-[100px] animate-animationleft'
+            ? ' fixed top-2 right-[66%] bg-white text-zinc-900 opacity-0 translate-x-[100px] animate-animationleft'
             : 'bg-zinc-900 text-white '
         }`}
       >

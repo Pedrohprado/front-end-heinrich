@@ -46,7 +46,7 @@ function RegisterValidation() {
     }
   }, [isId, navigate, setErrorGlobal, setId]);
   return (
-    <main className=' w-full h-screen p-10 flex flex-col text-zinc-900'>
+    <main className=' w-full h-screen p-10 pt-[20%] flex flex-col text-zinc-900'>
       <h1 className=' font-bold text-xl mb-5'>Registros para validação</h1>
       {isRegisters ? (
         <ListRegisters isRegisters={isRegisters} authorized={isId} />
