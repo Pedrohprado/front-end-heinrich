@@ -1,16 +1,16 @@
 import { FaCheck, FaCircleNotch } from 'react-icons/fa';
 
 import { TypeRegister } from '../types/typesRegisters';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import CheckRegister from './checkregister';
 import Tag from './tag';
 
 interface Props {
   isRegisters: TypeRegister[];
-  authorized: number | null; // Definindo a propriedade isRegisters como um array de TypeRegister
+  authorized: number | null;
 }
 
-const ListRegisters: React.FC<Props> = ({ isRegisters, authorized }) => {
+const ListRegisters = ({ isRegisters, authorized }: Props) => {
   const [isPageValidation, setPageValidation] = useState<boolean>(false);
   const [isId, setId] = useState<number | null>(null);
 

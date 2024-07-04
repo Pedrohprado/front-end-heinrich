@@ -39,6 +39,7 @@ function RegisterValidation() {
         console.log('erro ao fazer login', error);
       }
     };
+
     if (!isId) {
       verify();
     } else {

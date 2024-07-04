@@ -12,6 +12,7 @@ import { FaHelmetSafety } from 'react-icons/fa6';
 import { AiFillMedicineBox } from 'react-icons/ai';
 import { TypeRegister } from '../types/typesRegisters';
 import Tag from './tag';
+import { useNavigate } from 'react-router-dom';
 
 const CheckRegister = ({
   setPageValidation,
@@ -22,13 +23,9 @@ const CheckRegister = ({
 }) => {
   const [isOpenList, setOpenList] = useState<number | null>(null);
   const [isRegister, setRegister] = useState<TypeRegister | null>(null);
-  const toggleList = (barNumber: number) => {
-    if (isOpenList == barNumber) {
-      setOpenList(null);
-    } else {
-      setOpenList(barNumber);
-    }
-  };
+
+  const navigate = useNavigate();
+
   useEffect(() => {
     async function getUniqueRegisterById() {
       const response = await fetch(`${url}/showuniqueregister/${isId}`);
@@ -38,6 +35,34 @@ const CheckRegister = ({
     }
     if (isId) getUniqueRegisterById();
   }, [isId]);
+
+  const toggleList = (barNumber: number) => {
+    if (isOpenList == barNumber) {
+      setOpenList(null);
+    } else {
+      setOpenList(barNumber);
+    }
+  };
+
+  const handleValidation = async () => {
+    if (isRegister) {
+      console.log(`${url}/validationregister/${isRegister.id}/${isId}`);
+      const response = await fetch(
+        `${url}/validationregister/${isRegister.id}/${isId}`,
+        {
+          method: 'PUT',
+        }
+      );
+      const data = await response.json();
+      console.log(data);
+      if (data) {
+        setPageValidation(false);
+        navigate('/');
+      }
+      console.log(data);
+    }
+  };
+
   return (
     <section className=' w-full h-full fixed top-0 right-0 flex items-center justify-center bg-opacity-65 z-40 bg-zinc-700'>
       <div className=' w-[90%] h-[90%] rounded bg-white flex flex-col p-4'>
@@ -82,7 +107,10 @@ const CheckRegister = ({
           </button>
           {isOpenList === 2 && (
             <div className=' opacity-0 translate-y-[-10px] animate-animationleft '>
-              informações
+              <p>
+                informações necessárias para validar o campo do setor do
+                ambulatório
+              </p>
             </div>
           )}
           <button
@@ -97,11 +125,23 @@ const CheckRegister = ({
             {isOpenList === 3 ? <IoIosArrowDown /> : <IoIosArrowForward />}
           </button>
           {isOpenList === 3 && (
-            <form className=' opacity-0 translate-y-[-10px] animate-animationleft w-full flex flex-col p-2 gap-2'>
-              <label>
-                <input type='text' />
-              </label>
-            </form>
+            <div className=' opacity-0 translate-y-[-10px] animate-animationleft w-full flex flex-col p-2 gap-2'>
+              <p>
+                informações necessárias para validar o campo do setor de
+                segurança
+              </p>
+              <button
+                onClick={handleValidation}
+                className=' bg-blue-800 text-white py-1 rounded'
+              >
+                validar
+              </button>
+            </div>
+            // <form className=' opacity-0 translate-y-[-10px] animate-animationleft w-full flex flex-col p-2 gap-2'>
+            //   <label>
+            //     <input type='text' />
+            //   </label>
+            // </form>
           )}
         </div>
       </div>
