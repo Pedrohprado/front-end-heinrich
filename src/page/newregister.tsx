@@ -50,6 +50,23 @@ const NewRegister = () => {
       <h1 className='font-bold text-xl mb-5'>Registrar novo ocorrido</h1>
       <form onSubmit={handleSubmit} className='flex flex-col gap-6'>
         <label className=' flex flex-col font-medium text-sm gap-1'>
+          Nível do ocorrido
+          <select
+            className=' px-2 py-3 border rounded-md font-light'
+            onChange={(event) => setLevelWhatHappened(event.target.value)}
+          >
+            <option hidden></option>
+            <option value='ato inseguro'>ato inseguro</option>
+            <option value='condição insegura'>condição insegura</option>
+            <option value='quase acidente'>quase acidente</option>
+            <option value='primeiros socorros'>primeiros socorros</option>
+            <option value='acidente leve'>ato inseguro</option>
+            <option value='acidente moderado'>acidente moderado</option>
+            <option value='acidente grave'>acidente grave</option>
+            <option value='fatalidade'>fatalidade</option>
+          </select>
+        </label>
+        <label className=' flex flex-col font-medium text-sm gap-1'>
           Nome
           <input
             value={isName}
@@ -84,23 +101,6 @@ const NewRegister = () => {
             type='text'
             className=' px-2 py-3 border rounded-md font-light'
           />
-        </label>
-        <label className=' flex flex-col font-medium text-sm gap-1'>
-          Nível do ocorrido
-          <select
-            className=' px-2 py-3 border rounded-md font-light'
-            onChange={(event) => setLevelWhatHappened(event.target.value)}
-          >
-            <option value='qual o nível do ocorrido?' hidden></option>
-            <option value='ato inseguro'>ato inseguro</option>
-            <option value='condição insegura'>condição insegura</option>
-            <option value='quase acidente'>quase acidente</option>
-            <option value='primeiros socorros'>primeiros socorros</option>
-            <option value='acidente leve'>ato inseguro</option>
-            <option value='acidente moderado'>acidente moderado</option>
-            <option value='acidente grave'>acidente grave</option>
-            <option value='fatalidade'>fatalidade</option>
-          </select>
         </label>
         <label className=' flex flex-col font-medium text-sm gap-1'>
           Descrição
