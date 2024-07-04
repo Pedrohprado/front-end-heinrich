@@ -1,5 +1,5 @@
 //I need created a new inputs for register, when, i register why staff validated register, and add new inputs for ambulatório
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { url } from '../api/api';
 import {
   IoIosArrowBack,
@@ -13,28 +13,30 @@ import { AiFillMedicineBox } from 'react-icons/ai';
 import { TypeRegister } from '../types/typesRegisters';
 import Tag from './tag';
 import { useNavigate } from 'react-router-dom';
+import { GlobalContext } from '../globalcontext/globalcontext';
 
 const CheckRegister = ({
   setPageValidation,
-  isId,
+  isIdRegister,
 }: {
   setPageValidation: (isPageValidation: boolean) => void;
-  isId: number | null;
+  isIdRegister: number | null;
 }) => {
   const [isOpenList, setOpenList] = useState<number | null>(null);
   const [isRegister, setRegister] = useState<TypeRegister | null>(null);
 
   const navigate = useNavigate();
+  const { isId } = useContext(GlobalContext);
 
   useEffect(() => {
     async function getUniqueRegisterById() {
-      const response = await fetch(`${url}/showuniqueregister/${isId}`);
+      const response = await fetch(`${url}/showuniqueregister/${isIdRegister}`);
       const data = await response.json();
       setRegister(data);
       console.log(data);
     }
-    if (isId) getUniqueRegisterById();
-  }, [isId]);
+    if (isIdRegister) getUniqueRegisterById();
+  }, [isIdRegister]);
 
   const toggleList = (barNumber: number) => {
     if (isOpenList == barNumber) {
@@ -59,7 +61,6 @@ const CheckRegister = ({
         setPageValidation(false);
         navigate('/');
       }
-      console.log(data);
     }
   };
 

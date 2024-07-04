@@ -12,15 +12,20 @@ interface Props {
 
 const ListRegisters = ({ isRegisters, authorized }: Props) => {
   const [isPageValidation, setPageValidation] = useState<boolean>(false);
-  const [isId, setId] = useState<number | null>(null);
+  const [isIdRegister, setIdRegister] = useState<number | null>(null);
 
   function handleValidation(id: number) {
-    setId(id);
+    setIdRegister(id);
     setPageValidation(true);
   }
 
   if (isPageValidation)
-    return <CheckRegister setPageValidation={setPageValidation} isId={isId} />;
+    return (
+      <CheckRegister
+        setPageValidation={setPageValidation}
+        isIdRegister={isIdRegister}
+      />
+    );
   if (isRegisters && authorized) {
     return (
       <>
