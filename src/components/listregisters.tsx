@@ -64,9 +64,9 @@ const ListRegisters = ({ isRegisters, authorized }: Props) => {
 
   if (isRegisters && !authorized) {
     return (
-      <>
+      <section className=' flex flex-col gap-2 w-full pb-10'>
         {isRegisters.map((register: TypeRegister) => (
-          <section
+          <div
             key={register.id}
             className=' rounded-md border w-full p-3 flex flex-col gap-5'
           >
@@ -96,9 +96,9 @@ const ListRegisters = ({ isRegisters, authorized }: Props) => {
                 )}
               </div>
             </div>
-          </section>
+          </div>
         ))}
-      </>
+      </section>
     );
   }
 };
