@@ -6,13 +6,15 @@ import {
   IoCheckboxOutline,
   IoPersonAdd,
   IoExitOutline,
+  IoPersonOutline,
 } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { GlobalContext } from '../globalcontext/globalcontext';
 
 const Header = () => {
   const [isMenuOpen, setMenuOpen] = useState<boolean>(false);
-  const { isLogin, setLogin, setToken } = useContext(GlobalContext);
+  const { isUser, isCardNumber, isLogin, setLogin, setToken } =
+    useContext(GlobalContext);
 
   function handleLogout() {
     setLogin(false);
@@ -37,11 +39,16 @@ const Header = () => {
 
       {isMenuOpen && (
         <div className='bg-white border shadow w-2/3 h-full top-2 right-0 fixed flex flex-col px-2 py-1  gap-5 opacity-0 translate-x-[100px] animate-animationleft'>
-          <div>
-            <div className=' w-10 h-10 rounded-full bg-slate-500'></div>
+          <div className=' mt-3 flex gap-4 items-center'>
+            <div className=' w-10 h-10 rounded-md bg-slate-500 flex items-center justify-center text-white'>
+              <IoPersonOutline size={18} />
+            </div>
+            <div>
+              <p className=' font-semibold '>{isUser}</p>
+              <p className='text-sm  text-zinc-400'>{isCardNumber}</p>
+            </div>
           </div>
           <nav className=' w-full flex flex-col gap-1'>
-            <p className=' font-medium text-lg mb-1'>Menu</p>
             <Link
               className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft shadow-sm py-2'
               onClick={() => setMenuOpen(!isMenuOpen)}
@@ -51,7 +58,8 @@ const Header = () => {
               Início
             </Link>
             <Link
-              className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft'
+              className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft shadow-sm py-2
+              '
               onClick={() => setMenuOpen(!isMenuOpen)}
               to={'/registrosparavalidacao'}
             >
@@ -59,7 +67,7 @@ const Header = () => {
               Validar
             </Link>
             <Link
-              className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft'
+              className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft shadow-sm py-2'
               onClick={() => setMenuOpen(!isMenuOpen)}
               to={'/novoregistro'}
             >
@@ -68,7 +76,7 @@ const Header = () => {
             </Link>
 
             <Link
-              className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft'
+              className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft shadow-sm py-2'
               onClick={() => setMenuOpen(!isMenuOpen)}
               to={'/novostaff'}
             >
