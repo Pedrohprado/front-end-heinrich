@@ -19,7 +19,7 @@ const Tag = ({ level }: { level: string }) => {
           : level === 'fatalidade'
           ? ' border-red-800 bg-red-200 text-red-900'
           : ''
-      } w-full flex justify-center items-center rounded-md font-medium`}
+      } w-full flex justify-center items-center rounded-md font-medium text-sm`}
     >
       {level}
     </p>
