@@ -10,7 +10,7 @@ import { GlobalContext } from '../globalcontext/globalcontext';
 const Registers = () => {
   const [isRegisters, setRegisters] = useState<TypeRegister[] | null>(null);
 
-  const { isErrorGlobal, setErrorGlobal } = useContext(GlobalContext);
+  const { isErrorGlobal, setErrorGlobal, isId } = useContext(GlobalContext);
 
   useEffect(() => {
     if (isErrorGlobal) {
@@ -25,18 +25,29 @@ const Registers = () => {
   useEffect(() => {
     const getAllRegisters = async () => {
       try {
-        const response = await fetch(`${url}/showallregister`);
+        const token = localStorage.getItem('token');
+        // console.log(isId);
+        // console.log(token);
+        const response = await fetch(
+          `${url}/register/showregisterbyuser/${isId}`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const data = await response.json();
         setRegisters(data);
         console.log(data);
-        console.log('n');
       } catch (error) {
         console.log('erro ao fazer login', error);
       }
     };
 
     getAllRegisters();
-  }, []);
+  }, [isId]);
+
   return (
     <main className=' w-full h-screen p-10 pt-[20%] flex flex-col text-zinc-900 relative'>
       {isErrorGlobal ? (

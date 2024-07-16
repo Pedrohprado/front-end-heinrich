@@ -3,7 +3,7 @@ import { TypeCreatedRegister } from '../types/typesRegisters';
 export const url: string = import.meta.env.VITE_BASE_URL_URL_API;
 
 export const verifyToken = async (token: string) => {
-  const response = await fetch(`${url}/verifytoken`, {
+  const response = await fetch(`${url}/user/token`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -19,24 +19,18 @@ export const verifyToken = async (token: string) => {
   return response.json();
 };
 
-export const loginStaff = async (
-  name: string,
-  card: string | number,
-  password: string
-) => {
+export const loginUser = async (body: {
+  nome: string;
+  cartao: string | number;
+  password: string;
+}) => {
   try {
-    const json = {
-      nome: name,
-      cartao: card,
-      password,
-    };
-
-    const response = await fetch(`${url}/loginstaff`, {
+    const response = await fetch(`${url}/user/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(json),
+      body: JSON.stringify(body),
     });
 
     const data = await response.json();

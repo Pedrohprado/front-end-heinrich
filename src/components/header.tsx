@@ -13,13 +13,13 @@ import { GlobalContext } from '../globalcontext/globalcontext';
 
 const Header = () => {
   const [isMenuOpen, setMenuOpen] = useState<boolean>(false);
-  const { isUser, isCardNumber, isLogin, setLogin, setToken } =
+  const { isUser, isCardNumber, isLogin, isRole, setLogin } =
     useContext(GlobalContext);
 
   function handleLogout() {
-    setLogin(false);
-    setToken(null);
+    setMenuOpen(false);
     localStorage.removeItem('token');
+    setLogin(false);
   }
 
   if (!isLogin) return null;
@@ -44,8 +44,17 @@ const Header = () => {
               <IoPersonOutline size={18} />
             </div>
             <div>
-              <p className=' font-semibold '>{isUser}</p>
-              <p className='text-sm  text-zinc-400'>{isCardNumber}</p>
+              {isUser && (
+                <p className=' font-semibold '>{isUser.slice(0, 5)}</p>
+              )}
+              <div className=' flex items-center gap-2 w-full '>
+                <p className='text-sm  text-zinc-400'>{isCardNumber}</p>
+                {isRole && (
+                  <p className='text-sm  text-zinc-400'>
+                    {isRole.replace('STAFF', '').toLowerCase()}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
           <nav className=' w-full flex flex-col gap-1'>
@@ -55,35 +64,42 @@ const Header = () => {
               to={'/'}
             >
               <IoHomeSharp />
-              Início
+              início
             </Link>
-            <Link
-              className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft shadow-sm py-2
-              '
-              onClick={() => setMenuOpen(!isMenuOpen)}
-              to={'/registrosparavalidacao'}
-            >
-              <IoCheckboxOutline />
-              Validar
-            </Link>
+
             <Link
               className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft shadow-sm py-2'
               onClick={() => setMenuOpen(!isMenuOpen)}
               to={'/novoregistro'}
             >
               <IoPencilSharp />
-              Novo registro
-            </Link>
-
-            <Link
-              className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft shadow-sm py-2'
-              onClick={() => setMenuOpen(!isMenuOpen)}
-              to={'/novostaff'}
-            >
-              <IoPersonAdd />
-              Novo staff
+              novo registro
             </Link>
           </nav>
+
+          {isRole === 'USER' ? null : (
+            <nav>
+              <h2 className=' mt-2'>Área do staff</h2>
+              <Link
+                className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft shadow-sm py-2
+              '
+                onClick={() => setMenuOpen(!isMenuOpen)}
+                to={'/registrosparavalidacao'}
+              >
+                <IoCheckboxOutline />
+                validar
+              </Link>
+
+              <Link
+                className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft shadow-sm py-2'
+                onClick={() => setMenuOpen(!isMenuOpen)}
+                to={'/novostaff'}
+              >
+                <IoPersonAdd />
+                novo staff
+              </Link>
+            </nav>
+          )}
 
           <button
             onClick={handleLogout}

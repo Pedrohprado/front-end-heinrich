@@ -1,90 +1,113 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { loginStaff } from '../api/api';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../globalcontext/globalcontext';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { loginUser } from '../api/api';
+import { useContext, useEffect } from 'react';
 
+const loginFiltersSchema = z.object({
+  nome: z.string().min(3, 'preencha o campo nome corretamente'),
+  cartao: z.string().min(4, 'preencha o campo cartão corretamente'),
+  password: z.string(),
+});
+
+type TypeLogin = z.infer<typeof loginFiltersSchema>;
+
+interface TypeResult {
+  id: number;
+  cartao: string;
+  nome: string;
+  role: string;
+  token: string;
+  warning?: string;
+}
 const Login = () => {
-  const [isName, setName] = useState<string>('');
-  const [isCard, setCard] = useState<string>('');
-  const [isPassword, setPassword] = useState<string>('');
-
-  const [isError, setError] = useState<string | null>(null);
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm<TypeLogin>({
+    mode: 'onChange',
+    resolver: zodResolver(loginFiltersSchema),
+  });
 
   const navigate = useNavigate();
-  const { isLogin, setUser, setCardNumber, setId, setToken, setLogin } =
+
+  const { isLogin, setId, setUser, setCardNumber, setRole, setLogin } =
     useContext(GlobalContext);
 
   useEffect(() => {
     if (isLogin) navigate('/');
   }, [isLogin, navigate]);
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setError(null);
-
-    if (isName && isCard && isPassword) {
-      const data = await loginStaff(isName, isCard, isPassword);
-
-      if (data.warning) {
-        setError(data.warning);
-      }
-
-      if (data.token) {
-        setError(null);
-        setUser(isName);
-        setToken(data.token);
-        localStorage.setItem('token', data.token);
-        setCardNumber(data.staff.cartao);
-        setId(data.staff.id);
+  async function sendLoginUser(data: TypeLogin) {
+    try {
+      const info: TypeResult = await loginUser(data);
+      console.log(info);
+      if (info.warning) setError('root', { message: info.warning });
+      if (info.token) {
+        localStorage.setItem('token', info.token);
+        setUser(info.nome);
+        setCardNumber(info.cartao);
+        setId(info.id);
+        setRole(info.role);
         setLogin(true);
         navigate('/');
+        console.log(info);
       }
-    } else {
-      setError('Preencha todos os campos');
+    } catch (error) {
+      console.log(error);
+      setError('root', {
+        message: 'json que vem do back end',
+      });
     }
   }
 
   return (
     <main className='w-full h-screen px-10 py-24 flex flex-col text-zinc-900'>
       <h1 className='font-bold text-xl mb-5'>Identificação</h1>
-      <form className='flex flex-col gap-6' onSubmit={handleSubmit}>
+      <form
+        className='flex flex-col gap-6'
+        onSubmit={handleSubmit(sendLoginUser)}
+      >
         <label className='flex flex-col font-medium text-sm gap-1'>
           Nome
           <input
-            value={isName}
-            onChange={(event) => setName(event.target.value)}
+            {...register('nome')}
             type='text'
             className='px-2 py-3 border rounded-md font-light'
           />
+          {errors.nome && <p>{errors.nome.message}</p>}
         </label>
         <label className='flex flex-col font-medium text-sm gap-1'>
           Cartão
           <input
-            value={isCard}
-            onChange={(event) => setCard(event.target.value)}
+            {...register('cartao')}
             type='text'
             className='px-2 py-3 border rounded-md font-light'
           />
+          {errors.cartao && <p>{errors.cartao.message}</p>}
         </label>
         <label className='flex flex-col font-medium text-sm gap-1'>
           Senha
           <input
-            value={isPassword}
-            onChange={(event) => setPassword(event.target.value)}
+            {...register('password')}
             type='password'
             className='px-2 py-3 border rounded-md font-light'
           />
         </label>
-        <button className='bg-green-900 rounded-md w-full py-2 text-white font-semibold'>
-          Login
+        <button
+          disabled={isSubmitting}
+          className={`${
+            isSubmitting ? 'bg-slate-300' : 'bg-green-900'
+          } rounded-md w-full py-2 text-white font-semibold`}
+        >
+          {isSubmitting ? 'carregando...' : 'login'}
         </button>
+        {errors.root && <p>{errors.root.message}</p>}
       </form>
-
-      {isError && (
-        <div className='opacity-0 translate-x-[-100px] animate-animationleft w-full shadow mt-10 flex items-center justify-center border-l-2 border-yellow-600 py-4'>
-          {isError}
-        </div>
-      )}
     </main>
   );
 };
