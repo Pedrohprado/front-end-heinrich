@@ -41,11 +41,16 @@ export const loginUser = async (body: {
   }
 };
 
-export const createdNewRegister = async (form: TypeCreatedRegister) => {
+export const createdNewRegister = async (
+  isId: number,
+  token: string,
+  form: TypeCreatedRegister
+) => {
   try {
-    const response = await fetch(`${url}/createnewregister`, {
+    const response = await fetch(`${url}/register/createnewregister/${isId}`, {
       method: 'POST',
       headers: {
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(form),

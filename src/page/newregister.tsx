@@ -1,59 +1,61 @@
-import { useState } from 'react';
 import { createdNewRegister } from '../api/api';
 import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useContext } from 'react';
+import { GlobalContext } from '../globalcontext/globalcontext';
+
+const registerInformationSchema = z.object({
+  nivelDoOcorrido: z.string(),
+  nome: z.string().min(4, 'preencha o campo nome'),
+  cartao: z.string().min(4, 'preencha o campo cartão'),
+  setor: z.string().min(4, 'preencha o campo setor'),
+  liderResponsavel: z.string().min(4, 'preencha o campo lider'),
+  descricao: z.string().min(5, 'descreva o ocorrido'),
+});
+
+type TypeRegister = z.infer<typeof registerInformationSchema>;
 
 const NewRegister = () => {
-  const [isName, setName] = useState<string>('');
-  const [isCard, setCard] = useState<string>('');
-  const [isSector, setSector] = useState<string>('');
-  const [isResponsibleLeader, setResponsibleLeader] = useState<string>('');
-  const [isLevelWhatHappened, setLevelWhatHappened] = useState<string>('');
-  const [isDescription, setDescription] = useState<string>('');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<TypeRegister>({
+    mode: 'onChange',
+    resolver: zodResolver(registerInformationSchema),
+  });
 
-  const [isError, setError] = useState<string | null>(null);
+  const { isId } = useContext(GlobalContext);
 
   const navigate = useNavigate();
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setError(null);
+  async function sendRegister(data: TypeRegister) {
+    console.log(data);
+    const token = localStorage.getItem('token');
 
-    if (
-      isName &&
-      isCard &&
-      isSector &&
-      isResponsibleLeader &&
-      isLevelWhatHappened &&
-      isDescription
-    ) {
-      const form = {
-        nome: isName,
-        cartao: isCard,
-        setor: isSector,
-        liderResponsavel: isResponsibleLeader,
-        nivelDoOcorrido: isLevelWhatHappened,
-        descricao: isDescription,
-      };
-      console.log(form);
-      const status = await createdNewRegister(form);
-
-      if (status.warning) setError(status.warning);
-
-      if (status.warning === 'novo registro criado com sucesso!') navigate('/');
-    } else {
-      setError('Preencha todos os campos');
+    if (token && isId) {
+      const info = await createdNewRegister(isId, token, data);
+      console.log(info);
+      if (info.warning === 'novo registro criado com sucesso!') {
+        navigate('/');
+      }
     }
   }
 
   return (
     <main className=' w-full h-screen p-10 pt-[20%] flex flex-col text-zinc-900'>
       <h1 className='font-bold text-xl mb-5'>Registrar novo ocorrido</h1>
-      <form onSubmit={handleSubmit} className='flex flex-col gap-6'>
+      <form
+        onSubmit={handleSubmit(sendRegister)}
+        className='flex flex-col gap-6'
+      >
         <label className=' flex flex-col font-medium text-sm gap-1'>
-          Nível do ocorrido
+          possível nível do ocorrido
           <select
+            {...register('nivelDoOcorrido')}
             className=' px-2 py-3 border rounded-md font-light'
-            onChange={(event) => setLevelWhatHappened(event.target.value)}
           >
             <option hidden></option>
             <option value='ato inseguro'>ato inseguro</option>
@@ -65,62 +67,62 @@ const NewRegister = () => {
             <option value='acidente grave'>acidente grave</option>
             <option value='fatalidade'>fatalidade</option>
           </select>
+          {errors.nivelDoOcorrido && <p>{errors.nivelDoOcorrido.message}</p>}
         </label>
         <label className=' flex flex-col font-medium text-sm gap-1'>
           Nome
           <input
-            value={isName}
-            onChange={(event) => setName(event.target.value)}
+            {...register('nome')}
             type='text'
             className=' px-2 py-3 border rounded-md font-light'
           />
+          {errors.nome && <p>{errors.nome.message}</p>}
         </label>
         <label className=' flex flex-col font-medium text-sm gap-1'>
           Cartão
           <input
-            value={isCard}
-            onChange={(event) => setCard(event.target.value)}
+            {...register('cartao')}
             type='text'
             className=' px-2 py-3 border rounded-md font-light'
           />
+          {errors.cartao && <p>{errors.cartao.message}</p>}
         </label>
         <label className=' flex flex-col font-medium text-sm gap-1'>
           Setor
           <input
-            value={isSector}
-            onChange={(event) => setSector(event.target.value)}
+            {...register('setor')}
             type='text'
             className=' px-2 py-3 border rounded-md font-light'
           />
+          {errors.setor && <p>{errors.setor.message}</p>}
         </label>
         <label className=' flex flex-col font-medium text-sm gap-1'>
           Lider responsável
           <input
-            value={isResponsibleLeader}
-            onChange={(event) => setResponsibleLeader(event.target.value)}
+            {...register('liderResponsavel')}
             type='text'
             className=' px-2 py-3 border rounded-md font-light'
           />
+          {errors.liderResponsavel && <p>{errors.liderResponsavel.message}</p>}
         </label>
         <label className=' flex flex-col font-medium text-sm gap-1'>
           Descrição
           <input
-            value={isDescription}
-            onChange={(event) => setDescription(event.target.value)}
+            {...register('descricao')}
             type='text'
             className=' px-2 py-3 border rounded-md font-light'
           />
+          {errors.descricao && <p>{errors.descricao.message}</p>}
         </label>
-        <button className='bg-blue-900 rounded-md w-full py-2 text-white font-semibold'>
-          registrar
+        <button
+          disabled={isSubmitting}
+          className={`${
+            isSubmitting ? ' bg-slate-300' : 'bg-blue-900'
+          } rounded-md w-full py-2 text-white font-semibold`}
+        >
+          {isSubmitting ? 'enviando' : 'registrar'}
         </button>
       </form>
-
-      {isError && (
-        <div className='opacity-0 translate-x-[-100px] animate-animationleft w-full shadow mt-10 flex items-center justify-center border-l-2 border-yellow-600 py-4'>
-          {isError}
-        </div>
-      )}
     </main>
   );
 };

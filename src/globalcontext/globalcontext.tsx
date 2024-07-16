@@ -43,6 +43,7 @@ const Context: React.FC<{ children: ReactNode }> = ({ children }) => {
         if (token) {
           const data = await verifyToken(token);
           setUser(data.nome);
+          setRole(data.role);
           setCardNumber(data.cartao);
           setId(data.id);
           setLogin(true);
