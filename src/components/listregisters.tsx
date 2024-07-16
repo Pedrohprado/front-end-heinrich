@@ -5,12 +5,13 @@ import { useState } from 'react';
 import CheckRegister from './checkregister';
 import Tag from './tag';
 
-interface Props {
+const ListRegisters = ({
+  isRegisters,
+  authorized,
+}: {
   isRegisters: TypeRegister[];
   authorized: number | null;
-}
-
-const ListRegisters = ({ isRegisters, authorized }: Props) => {
+}) => {
   const [isPageValidation, setPageValidation] = useState<boolean>(false);
   const [isIdRegister, setIdRegister] = useState<number | null>(null);
 
@@ -26,6 +27,7 @@ const ListRegisters = ({ isRegisters, authorized }: Props) => {
         isIdRegister={isIdRegister}
       />
     );
+
   if (isRegisters && authorized) {
     return (
       <>
@@ -45,6 +47,7 @@ const ListRegisters = ({ isRegisters, authorized }: Props) => {
               <p className=''>{register.setor}</p>
 
               <div className=' flex items-center gap-5'>
+                {/* deletar ainda não tem uma function */}
                 <button className=' bg-red-200 text-red-700 py-1 px-2 rounded'>
                   deletar
                 </button>
