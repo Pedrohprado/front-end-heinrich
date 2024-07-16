@@ -12,9 +12,6 @@ interface TypeGlobalContext {
   setRole: (role: string | null) => void;
   isLogin: boolean;
   setLogin: (loggedIn: boolean) => void;
-
-  isErrorGlobal: string | null;
-  setErrorGlobal: (error: string | null) => void;
 }
 
 const initialContext: TypeGlobalContext = {
@@ -28,9 +25,6 @@ const initialContext: TypeGlobalContext = {
   setRole: () => {},
   isLogin: false,
   setLogin: () => {},
-
-  setErrorGlobal: () => {},
-  isErrorGlobal: null,
 };
 
 export const GlobalContext = createContext<TypeGlobalContext>(initialContext);
@@ -41,8 +35,6 @@ const Context: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isUser, setUser] = useState<string | null>(null);
   const [isRole, setRole] = useState<string | null>(null);
   const [isLogin, setLogin] = useState<boolean>(false);
-
-  const [isErrorGlobal, setErrorGlobal] = useState<string | null>(null);
 
   useEffect(() => {
     const loadUserFromToken = async () => {
@@ -80,8 +72,6 @@ const Context: React.FC<{ children: ReactNode }> = ({ children }) => {
         setRole,
         isLogin,
         setLogin,
-        isErrorGlobal,
-        setErrorGlobal,
       }}
     >
       {children}
