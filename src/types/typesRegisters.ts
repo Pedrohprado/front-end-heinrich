@@ -1,15 +1,35 @@
 export interface TypeRegister {
-  cartao: string;
-  createdAt: Date;
-  dataValidacao: Date | null;
-  descricao: string;
   id: number;
-  liderResponsavel: string;
-  nivelDoOcorrido: string;
+  createdById: number;
   nome: string;
+  cartao: string;
   setor: string;
+  liderResponsavel: string;
+  descricao: string;
+  cliente: string | null;
+  produto: string | null;
+  nivelDoOcorrido: string;
+  createdAt: Date; //ok
   updatedAt: Date;
-  validadorId: number | null;
+
+  dataEntradaNoAmbulatorio: Date | string | null;
+  enfermeiroResponsavel: string | null;
+  parteDoCorpoAtingida: string | null;
+  lateralidadeDoCorpo: string | null;
+  NaturezaDaLesao: string | null;
+  cid: string | null;
+  diasDeAtestado: number | null;
+  diasDeAfastamentoReal: number | null;
+  unidadeDeAtendimento: string | null;
+  descricaoDoAcidente: string | null;
+  dataValidacaoAmbulatorio: Date | string | null;
+  validadorAmbulatorioId: null | number;
+
+  probabilidade: number | null;
+  gravidade: number | null;
+  fatorRiscoAcidente: number | null;
+  dataValidacaoTST: Date | string | null;
+  validadorTSTId: null | number;
 }
 
 export interface TypeCreatedRegister {

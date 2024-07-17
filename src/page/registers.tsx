@@ -18,6 +18,7 @@ const Registers = () => {
       if (isId && token) {
         const data = await listRegisterByUser(isId, token);
         setRegisters(data);
+        console.log(data);
       }
     };
 
