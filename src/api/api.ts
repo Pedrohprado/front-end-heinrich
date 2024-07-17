@@ -1,6 +1,43 @@
+import { TypeValidationAmbulatory } from '../components/formvalidationambulatory';
 import { TypeCreatedRegister } from '../types/typesRegisters';
 
 export const url: string = import.meta.env.VITE_BASE_URL_URL_API;
+
+export const listRegisterNeedValidationTst = async (userId: number) => {
+  const response = await fetch(`${url}/tst/showallregister/${userId}`);
+  const register = await response.json();
+
+  return register;
+};
+
+export const listRegisterNeedValidationAmbulatory = async (userId: number) => {
+  const response = await fetch(`${url}/ambulatory/showallregister/${userId}`);
+
+  const listOfRegister = await response.json();
+
+  return listOfRegister;
+};
+
+export const validationByAmbulatory = async (
+  userId: number,
+  registerId: number,
+  body: TypeValidationAmbulatory
+) => {
+  const response = await fetch(
+    `${url}/ambulatory/validationregister/${registerId}/${userId}`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    }
+  );
+
+  const infoValidation = response.json();
+
+  return infoValidation;
+};
 
 export const verifyToken = async (token: string) => {
   const response = await fetch(`${url}/user/token`, {

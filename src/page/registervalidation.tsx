@@ -1,8 +1,12 @@
 import { useContext, useEffect, useState } from 'react';
-import ListRegisters from '../components/listregisters';
 import { TypeRegister } from '../types/typesRegisters';
-import { url } from '../api/api';
+import {
+  listRegisterNeedValidationAmbulatory,
+  listRegisterNeedValidationTst,
+} from '../api/api';
 import { GlobalContext } from '../globalcontext/globalcontext';
+import ListRegisterValidationForTst from '../components/listsOfRegisters/listregistervalidationfortst';
+import ListRegisterAmbulatory from '../components/listsOfRegisters/listregistervalidationforambulatory';
 
 function RegisterValidation() {
   const [isRegisters, setRegisters] = useState<TypeRegister[] | null>(null);
@@ -10,23 +14,21 @@ function RegisterValidation() {
 
   useEffect(() => {
     const getAllRegisters = async () => {
-      if (isRole === 'STAFFAMBULATORY') {
+      if (isRole === 'STAFFAMBULATORY' && isId) {
         try {
-          const response = await fetch(
-            `${url}/ambulatory/showallregister/${isId}`
+          const listOfRegister = await listRegisterNeedValidationAmbulatory(
+            isId
           );
-          const register = await response.json();
-          setRegisters(register);
+          setRegisters(listOfRegister);
         } catch (error) {
           console.log(error);
         }
       }
-      if (isRole === 'STAFFTST') {
-        console.log(isRole);
+      if (isRole === 'STAFFTST' && isId) {
         try {
-          const response = await fetch(`${url}/tst/showallregister/${isId}`);
-          const register = await response.json();
-          setRegisters(register);
+          const listOfRegisterTst = await listRegisterNeedValidationTst(isId);
+          setRegisters(listOfRegisterTst);
+          console.log(listOfRegisterTst);
         } catch (error) {
           console.log(error);
         }
@@ -35,16 +37,12 @@ function RegisterValidation() {
 
     getAllRegisters();
   }, [isId, isRole]);
-  return (
-    <main className=' w-full h-screen p-10 pt-[20%] flex flex-col text-zinc-900'>
-      <h1 className=' font-bold text-xl mb-5'>Registros para validação</h1>
-      {isRegisters ? (
-        <ListRegisters isRegisters={isRegisters} authorized={isId} />
-      ) : (
-        'sem registros no momento'
-      )}
-    </main>
-  );
+
+  if (isRegisters && isRole === 'STAFFTST')
+    return <ListRegisterValidationForTst isRegisters={isRegisters} />;
+
+  if (isRegisters && isRole === 'STAFFAMBULATORY')
+    return <ListRegisterAmbulatory isRegisters={isRegisters} />;
 }
 
 export default RegisterValidation;

@@ -47,6 +47,8 @@ const CheckRegister = ({
           </div>
         )}
 
+        {isRegister && isRole === 'STAFFTST' ? <p>oi</p> : null}
+
         {isRegister && isRole === 'STAFFAMBULATORY' ? (
           <FormValidationAmbulatory idRegister={isRegister.id} />
         ) : null}

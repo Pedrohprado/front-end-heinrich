@@ -1,11 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
 import { url } from '../api/api';
 import { TypeRegister } from '../types/typesRegisters';
-
 import { FaPlus } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import ListRegisters from '../components/listregisters';
 import { GlobalContext } from '../globalcontext/globalcontext';
+import ListRegisterForUser from '../components/listregisterbyuser';
 
 const Registers = () => {
   const [isRegisters, setRegisters] = useState<TypeRegister[] | null>(null);
@@ -39,11 +38,11 @@ const Registers = () => {
 
   return (
     <main className=' w-full h-screen p-10 pt-[20%] flex flex-col text-zinc-900 relative'>
-      <h1 className=' font-bold text-xl mb-5'>Registros</h1>
-      {isRegisters ? (
-        <ListRegisters isRegisters={isRegisters} authorized={null} />
+      <h1 className=' font-bold text-xl mb-5'>Meus registros</h1>
+      {isRegisters && isRegisters.length > 0 ? (
+        <ListRegisterForUser isRegisters={isRegisters} />
       ) : (
-        'sem registros no momento'
+        'você não tem nenhum registro'
       )}
 
       <div className=' fixed bottom-5 right-0 w-full z-10 flex'>

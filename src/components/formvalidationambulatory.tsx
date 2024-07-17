@@ -1,23 +1,25 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { GlobalContext } from '../globalcontext/globalcontext';
+import { validationByAmbulatory } from '../api/api';
+import MessageValidation from './messagevalidation';
 
 const validationFormSchema = z.object({
-  dataEntradaNoAmbulatorio: z.string().datetime(),
+  dataEntradaNoAmbulatorio: z.string(),
   enfermeiroResponsavel: z.string().min(4, 'informe o(a) enfermeiro(a)'),
-  parteDoCorpoAtingida: z.string().min(1),
-  lateralidadeDoCorpo: z.string().min(1),
-  NaturezaDaLesao: z.string().min(1),
+  parteDoCorpoAtingida: z.string(),
+  lateralidadeDoCorpo: z.string(),
+  NaturezaDaLesao: z.string(),
   cid: z.string().min(2),
-  diasDeAtestado: z.number().min(1).max(2),
-  diasDeAfastamentoReal: z.number().min(1).max(2),
-  unidadeDeAtendimento: z.string().min(1),
+  diasDeAtestado: z.coerce.number(),
+  diasDeAfastamentoReal: z.coerce.number(),
+  unidadeDeAtendimento: z.string(),
   descricaoDoAcidente: z.string().min(10),
 });
 
-type TypeValidationAmbulatory = z.infer<typeof validationFormSchema>;
+export type TypeValidationAmbulatory = z.infer<typeof validationFormSchema>;
 
 const FormValidationAmbulatory = ({ idRegister }: { idRegister: number }) => {
   const {
@@ -29,14 +31,29 @@ const FormValidationAmbulatory = ({ idRegister }: { idRegister: number }) => {
     resolver: zodResolver(validationFormSchema),
   });
 
+  const [isMensage, setMensage] = useState<string | null>(null);
+
   const { isId } = useContext(GlobalContext);
 
   async function sendFormAmbulatory(data: TypeValidationAmbulatory) {
     console.log(data);
+
+    if (isId) {
+      const statusRegister: {
+        warning: string;
+      } = await validationByAmbulatory(isId, idRegister, data);
+      console.log(statusRegister);
+      if (statusRegister.warning === 'registro validado com sucesso!') {
+        setMensage(statusRegister.warning);
+      }
+    }
     //continuar com a function para pegar validationregister ambulatory
   }
   return (
     <div className=' flex flex-col max-h-[80%] overflow-y-auto'>
+      {isMensage && (
+        <MessageValidation isMenssage={isMensage} setMenssage={setMensage} />
+      )}
       <form
         className='flex flex-col gap-4 '
         onSubmit={handleSubmit(sendFormAmbulatory)}
@@ -143,7 +160,7 @@ const FormValidationAmbulatory = ({ idRegister }: { idRegister: number }) => {
         <label className='flex flex-col font-medium text-sm gap-1'>
           unidade de atendimento:
           <select
-            {...register('NaturezaDaLesao')}
+            {...register('unidadeDeAtendimento')}
             className=' px-2 py-3 border rounded-md font-light'
           >
             <option hidden></option>
