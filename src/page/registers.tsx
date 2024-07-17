@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { url } from '../api/api';
+import { listRegisterByUser } from '../api/api';
 import { TypeRegister } from '../types/typesRegisters';
 import { FaPlus } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
@@ -13,23 +13,11 @@ const Registers = () => {
 
   useEffect(() => {
     const getAllRegisters = async () => {
-      try {
-        const token = localStorage.getItem('token');
+      const token = localStorage.getItem('token');
 
-        const response = await fetch(
-          `${url}/register/showregisterbyuser/${isId}`,
-          {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        const data = await response.json();
+      if (isId && token) {
+        const data = await listRegisterByUser(isId, token);
         setRegisters(data);
-        console.log(data);
-      } catch (error) {
-        console.log('erro ao fazer login', error);
       }
     };
 
@@ -37,8 +25,8 @@ const Registers = () => {
   }, [isId]);
 
   return (
-    <main className=' w-full h-screen p-10 pt-[20%] flex flex-col text-zinc-900 relative'>
-      <h1 className=' font-bold text-xl mb-5'>Meus registros</h1>
+    <main className=' w-full h-screen p-5 pt-[20%] flex flex-col text-zinc-900 relative'>
+      <h1 className=' font-bold text-lg mb-5'>Meus registros</h1>
       {isRegisters && isRegisters.length > 0 ? (
         <ListRegisterForUser isRegisters={isRegisters} />
       ) : (

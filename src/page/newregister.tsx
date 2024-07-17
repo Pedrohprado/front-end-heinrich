@@ -1,10 +1,10 @@
 import { createdNewRegister } from '../api/api';
-import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { GlobalContext } from '../globalcontext/globalcontext';
+import MessageValidation from '../components/messagevalidation';
 
 const registerInformationSchema = z.object({
   nivelDoOcorrido: z.string(),
@@ -27,9 +27,9 @@ const NewRegister = () => {
     resolver: zodResolver(registerInformationSchema),
   });
 
-  const { isId } = useContext(GlobalContext);
+  const [isMensage, setMensage] = useState<string | null>(null);
 
-  const navigate = useNavigate();
+  const { isId } = useContext(GlobalContext);
 
   async function sendRegister(data: TypeRegister) {
     console.log(data);
@@ -39,13 +39,16 @@ const NewRegister = () => {
       const info = await createdNewRegister(isId, token, data);
       console.log(info);
       if (info.warning === 'novo registro criado com sucesso!') {
-        navigate('/');
+        setMensage(info.warning);
       }
     }
   }
 
   return (
     <main className=' w-full h-screen p-10 pt-[20%] flex flex-col text-zinc-900'>
+      {isMensage && (
+        <MessageValidation isMenssage={isMensage} setMenssage={setMensage} />
+      )}
       <h1 className='font-bold text-xl mb-5'>Registrar novo ocorrido</h1>
       <form
         onSubmit={handleSubmit(sendRegister)}
@@ -82,7 +85,7 @@ const NewRegister = () => {
           Cartão
           <input
             {...register('cartao')}
-            type='text'
+            type='number'
             className=' px-2 py-3 border rounded-md font-light'
           />
           {errors.cartao && <p>{errors.cartao.message}</p>}

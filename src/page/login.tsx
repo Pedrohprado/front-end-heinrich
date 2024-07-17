@@ -47,6 +47,7 @@ const Login = () => {
       const info: TypeResult = await loginUser(data);
       console.log(info);
       if (info.warning) setError('root', { message: info.warning });
+
       if (info.token) {
         localStorage.setItem('token', info.token);
         setUser(info.nome);

@@ -47,7 +47,7 @@ const MessageValidation = ({
 
   if (isHidden)
     return (
-      <div className='fixed z-30 w-full h-screen bg-[#20202095] flex items-center justify-center'>
+      <div className=' top-0 right-0 fixed z-30 w-full h-screen bg-[#20202095] flex items-center justify-center'>
         <div className=' relative w-4/5 h-20 bg-white flex flex-col items-center justify-center rounded gap-2 text-green-900'>
           <div className=' flex items-center gap-1'>
             <FaRegCircleCheck size={18} />

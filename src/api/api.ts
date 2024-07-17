@@ -1,7 +1,20 @@
-import { TypeValidationAmbulatory } from '../components/formvalidationambulatory';
+import { TypeValidationAmbulatory } from '../components/forms/formvalidationambulatory';
+import { TypeValidationTst } from '../components/forms/formvalidationtst';
 import { TypeCreatedRegister } from '../types/typesRegisters';
 
 export const url: string = import.meta.env.VITE_BASE_URL_URL_API;
+
+export const listRegisterByUser = async (userId: number, token: string) => {
+  const response = await fetch(`${url}/register/showregisterbyuser/${userId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await response.json();
+
+  return data.reverse();
+};
 
 export const listRegisterNeedValidationTst = async (userId: number) => {
   const response = await fetch(`${url}/tst/showallregister/${userId}`);
@@ -16,6 +29,26 @@ export const listRegisterNeedValidationAmbulatory = async (userId: number) => {
   const listOfRegister = await response.json();
 
   return listOfRegister;
+};
+
+export const validationByTst = async (
+  userId: number,
+  registerId: number,
+  body: TypeValidationTst
+) => {
+  const response = await fetch(
+    `${url}/tst/validationregister/${registerId}/${userId}`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    }
+  );
+
+  const infoValidation = await response.json();
+  return infoValidation;
 };
 
 export const validationByAmbulatory = async (
@@ -34,7 +67,7 @@ export const validationByAmbulatory = async (
     }
   );
 
-  const infoValidation = response.json();
+  const infoValidation = await response.json();
 
   return infoValidation;
 };

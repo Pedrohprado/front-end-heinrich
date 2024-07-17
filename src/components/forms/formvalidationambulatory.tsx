@@ -2,9 +2,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { GlobalContext } from '../globalcontext/globalcontext';
-import { validationByAmbulatory } from '../api/api';
-import MessageValidation from './messagevalidation';
+import { GlobalContext } from '../../globalcontext/globalcontext';
+import { validationByAmbulatory } from '../../api/api';
+import MessageValidation from '../messagevalidation';
 
 const validationFormSchema = z.object({
   dataEntradaNoAmbulatorio: z.string(),
@@ -47,7 +47,6 @@ const FormValidationAmbulatory = ({ idRegister }: { idRegister: number }) => {
         setMensage(statusRegister.warning);
       }
     }
-    //continuar com a function para pegar validationregister ambulatory
   }
   return (
     <div className=' flex flex-col max-h-[80%] overflow-y-auto'>

@@ -9,7 +9,7 @@ const ListRegisterForUser = ({
 }) => {
   if (isRegisters) {
     return (
-      <section className=' flex flex-col gap-2 w-full pb-10'>
+      <section className=' flex flex-col gap-2 w-full pb-10 max-h-[590px] overflow-y-auto'>
         {isRegisters.map((register: TypeRegister) => (
           <div
             key={register.id}

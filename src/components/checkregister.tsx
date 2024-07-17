@@ -6,7 +6,8 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { TypeRegister } from '../types/typesRegisters';
 import Tag from './tag';
 import { GlobalContext } from '../globalcontext/globalcontext';
-import FormValidationAmbulatory from './formvalidationambulatory';
+import FormValidationAmbulatory from './forms/formvalidationambulatory';
+import FormValidationTst from './forms/formvalidationtst';
 
 const CheckRegister = ({
   setPageValidation,
@@ -47,7 +48,9 @@ const CheckRegister = ({
           </div>
         )}
 
-        {isRegister && isRole === 'STAFFTST' ? <p>oi</p> : null}
+        {isRegister && isRole === 'STAFFTST' ? (
+          <FormValidationTst idRegister={isRegister.id} />
+        ) : null}
 
         {isRegister && isRole === 'STAFFAMBULATORY' ? (
           <FormValidationAmbulatory idRegister={isRegister.id} />
