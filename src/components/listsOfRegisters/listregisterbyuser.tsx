@@ -1,6 +1,6 @@
 import { FaCheck, FaCircleNotch } from 'react-icons/fa';
-import { TypeRegister } from '../types/typesRegisters';
-import Tag from './tag';
+import { TypeRegister } from '../../types/typesRegisters';
+import Tag from '../tag';
 
 const ListRegisterForUser = ({
   isRegisters,

@@ -4,7 +4,7 @@ import { TypeRegister } from '../types/typesRegisters';
 import { FaPlus } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { GlobalContext } from '../globalcontext/globalcontext';
-import ListRegisterForUser from '../components/listregisterbyuser';
+import ListRegisterForUser from '../components/listsOfRegisters/listregisterbyuser';
 
 const Registers = () => {
   const [isRegisters, setRegisters] = useState<TypeRegister[] | null>(null);
