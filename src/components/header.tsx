@@ -25,7 +25,7 @@ const Header = () => {
   if (!isLogin) return null;
 
   return (
-    <header className='w-full h-14 shadow bg-white flex justify-end items-center py-2 px-10 absolute z-20 '>
+    <header className='w-full h-14 shadow bg-white flex justify-end items-center py-2 px-5 absolute z-20 '>
       <button
         onClick={() => setMenuOpen(!isMenuOpen)}
         className={` p-1 rounded border ${
@@ -45,7 +45,7 @@ const Header = () => {
             </div>
             <div>
               {isUser && (
-                <p className=' font-semibold '>{isUser.slice(0, 5)}</p>
+                <p className=' font-semibold '>{isUser.split(' ')[0]}</p>
               )}
               <div className=' flex items-center gap-2 w-full '>
                 <p className='text-sm  text-zinc-400'>{isCardNumber}</p>
@@ -79,7 +79,7 @@ const Header = () => {
 
           {isRole === 'USER' ? null : (
             <nav>
-              <h2 className=' mt-2'>Área do staff</h2>
+              <h2 className=' mt-2 mb-1 font-bold text-sm'>Área do staff</h2>
               <Link
                 className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft shadow-sm py-2
               '
