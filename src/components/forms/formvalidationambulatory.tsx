@@ -1,10 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { GlobalContext } from '../../globalcontext/globalcontext';
 import { validationByAmbulatory } from '../../api/api';
 import MessageValidation from '../messagevalidation';
+import { useMutation } from '@tanstack/react-query';
 
 const validationFormSchema = z.object({
   dataEntradaNoAmbulatorio: z.string(),
@@ -22,6 +23,9 @@ const validationFormSchema = z.object({
 export type TypeValidationAmbulatory = z.infer<typeof validationFormSchema>;
 
 const FormValidationAmbulatory = ({ idRegister }: { idRegister: number }) => {
+  const { mutateAsync, data, isSuccess } = useMutation({
+    mutationFn: validationByAmbulatory,
+  });
   const {
     register,
     handleSubmit,
@@ -31,28 +35,18 @@ const FormValidationAmbulatory = ({ idRegister }: { idRegister: number }) => {
     resolver: zodResolver(validationFormSchema),
   });
 
-  const [isMensage, setMensage] = useState<string | null>(null);
-
   const { isId } = useContext(GlobalContext);
 
-  async function sendFormAmbulatory(data: TypeValidationAmbulatory) {
-    console.log(data);
+  async function sendFormAmbulatory(body: TypeValidationAmbulatory) {
+    console.log(body);
 
     if (isId) {
-      const statusRegister: {
-        warning: string;
-      } = await validationByAmbulatory(isId, idRegister, data);
-      console.log(statusRegister);
-      if (statusRegister.warning === 'registro validado com sucesso!') {
-        setMensage(statusRegister.warning);
-      }
+      mutateAsync({ isId, idRegister, body });
     }
   }
   return (
     <div className=' flex flex-col max-h-[80%] overflow-y-auto'>
-      {isMensage && (
-        <MessageValidation isMenssage={isMensage} setMenssage={setMensage} />
-      )}
+      {isSuccess && <MessageValidation isMenssage={data.warning} />}
       <form
         className='flex flex-col gap-4 '
         onSubmit={handleSubmit(sendFormAmbulatory)}

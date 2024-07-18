@@ -73,13 +73,17 @@ export const validationByTst = async ({
   }
 };
 
-export const validationByAmbulatory = async (
-  userId: number,
-  registerId: number,
-  body: TypeValidationAmbulatory
-) => {
+export const validationByAmbulatory = async ({
+  isId,
+  idRegister,
+  body,
+}: {
+  isId: number | null;
+  idRegister: number | null;
+  body: TypeValidationAmbulatory;
+}) => {
   const response = await fetch(
-    `${url}/ambulatory/validationregister/${registerId}/${userId}`,
+    `${url}/ambulatory/validationregister/${idRegister}/${isId}`,
     {
       method: 'PUT',
       headers: {
