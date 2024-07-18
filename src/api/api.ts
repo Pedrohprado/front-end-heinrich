@@ -1,19 +1,26 @@
 import { TypeValidationAmbulatory } from '../components/forms/formvalidationambulatory';
 import { TypeValidationTst } from '../components/forms/formvalidationtst';
-import { TypeCreatedRegister } from '../types/typesRegisters';
+import { TypeCreatedRegister, TypeRegister } from '../types/typesRegisters';
 
 export const url: string = import.meta.env.VITE_BASE_URL_URL_API;
 
-export const listRegisterByUser = async (userId: number, token: string) => {
-  const response = await fetch(`${url}/register/showregisterbyuser/${userId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+export const listRegisterByUser = async (userId: number | null) => {
+  const token = localStorage.getItem('token');
 
-  const data = await response.json();
+  if (token && userId) {
+    const response = await fetch(
+      `${url}/register/showregisterbyuser/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-  return data.reverse();
+    const data: TypeRegister[] = await response.json();
+
+    return data.reverse();
+  }
 };
 
 export const listRegisterNeedValidationTst = async (userId: number) => {

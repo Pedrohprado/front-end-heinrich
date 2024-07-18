@@ -1,39 +1,28 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { listRegisterByUser } from '../api/api';
-import { TypeRegister } from '../types/typesRegisters';
 import { FaPlus } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { GlobalContext } from '../globalcontext/globalcontext';
 import ListRegisterForUser from '../components/listsOfRegisters/listregisterbyuser';
+import { useQuery } from '@tanstack/react-query';
 
 const Registers = () => {
-  const [isRegisters, setRegisters] = useState<TypeRegister[] | null>(null);
-
   const { isId } = useContext(GlobalContext);
 
-  useEffect(() => {
-    const getAllRegisters = async () => {
-      const token = localStorage.getItem('token');
-
-      if (isId && token) {
-        const data = await listRegisterByUser(isId, token);
-        setRegisters(data);
-        console.log(data);
-      }
-    };
-
-    getAllRegisters();
-  }, [isId]);
+  const { data, isLoading } = useQuery({
+    queryKey: ['registersbyuser', isId],
+    queryFn: () => listRegisterByUser(isId),
+  });
 
   return (
     <main className=' w-full h-screen p-5 pt-[20%] flex flex-col text-zinc-900 relative'>
       <h1 className=' font-bold text-lg mb-5'>Meus registros</h1>
-      {isRegisters && isRegisters.length > 0 ? (
-        <ListRegisterForUser isRegisters={isRegisters} />
+      {isLoading ? <div>carregando...</div> : null}
+      {data && data.length > 0 && !isLoading ? (
+        <ListRegisterForUser isRegisters={data} />
       ) : (
         'você não tem nenhum registro'
       )}
-
       <div className=' fixed bottom-5 right-0 w-full z-10 flex'>
         <Link
           to={'/novoregistro'}
