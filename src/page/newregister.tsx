@@ -2,9 +2,10 @@ import { createdNewRegister } from '../api/api';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { GlobalContext } from '../globalcontext/globalcontext';
 import MessageValidation from '../components/messagevalidation';
+import { useMutation } from '@tanstack/react-query';
 
 const registerInformationSchema = z.object({
   nivelDoOcorrido: z.string(),
@@ -15,40 +16,33 @@ const registerInformationSchema = z.object({
   descricao: z.string().min(5, 'descreva o ocorrido'),
 });
 
-type TypeRegister = z.infer<typeof registerInformationSchema>;
+export type TypeRegisterForm = z.infer<typeof registerInformationSchema>;
 
 const NewRegister = () => {
+  const { mutateAsync, data, isSuccess } = useMutation({
+    mutationFn: createdNewRegister,
+  });
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<TypeRegister>({
+  } = useForm<TypeRegisterForm>({
     mode: 'onChange',
     resolver: zodResolver(registerInformationSchema),
   });
 
-  const [isMensage, setMensage] = useState<string | null>(null);
-
   const { isId } = useContext(GlobalContext);
 
-  async function sendRegister(data: TypeRegister) {
-    console.log(data);
-    const token = localStorage.getItem('token');
-
-    if (token && isId) {
-      const info = await createdNewRegister(isId, token, data);
-      console.log(info);
-      if (info.warning === 'novo registro criado com sucesso!') {
-        setMensage(info.warning);
-      }
+  async function sendRegister(form: TypeRegisterForm) {
+    if (isId) {
+      mutateAsync({ isId, form });
     }
   }
 
   return (
     <main className=' w-full h-screen p-10 pt-[20%] flex flex-col text-zinc-900'>
-      {isMensage && (
-        <MessageValidation isMenssage={isMensage} setMenssage={setMensage} />
-      )}
+      {isSuccess && <MessageValidation isMenssage={data.warning} />}
       <h1 className='font-bold text-xl mb-5'>Registrar novo ocorrido</h1>
       <form
         onSubmit={handleSubmit(sendRegister)}

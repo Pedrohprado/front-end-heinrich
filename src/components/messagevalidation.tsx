@@ -2,13 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaRegCircleCheck } from 'react-icons/fa6';
 
-const MessageValidation = ({
-  isMenssage,
-  setMenssage,
-}: {
-  isMenssage: string;
-  setMenssage: (isMensage: string | null) => void;
-}) => {
+const MessageValidation = ({ isMenssage }: { isMenssage: string }) => {
   const [isHidden, setHidden] = useState<boolean>(true);
   const [isProgress, setProgress] = useState(0);
   const navigate = useNavigate();
@@ -25,11 +19,9 @@ const MessageValidation = ({
         const elapsedTime = Date.now() - startTime;
         const currentProgress = (elapsedTime / endTime) * 100;
         setProgress(currentProgress);
-        console.log(elapsedTime, endTime);
         if (elapsedTime < endTime) {
           timer = setTimeout(updateProgress, intervalTime);
         } else {
-          setMenssage(null);
           setHidden(false);
           navigate('/');
         }
@@ -41,7 +33,7 @@ const MessageValidation = ({
         clearTimeout(timer);
       };
     }
-  }, [isHidden, navigate, setMenssage]);
+  }, [isHidden, navigate]);
 
   if (!isHidden) return null;
 

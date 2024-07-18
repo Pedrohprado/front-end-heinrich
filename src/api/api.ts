@@ -1,6 +1,7 @@
 import { TypeValidationAmbulatory } from '../components/forms/formvalidationambulatory';
 import { TypeValidationTst } from '../components/forms/formvalidationtst';
-import { TypeCreatedRegister, TypeRegister } from '../types/typesRegisters';
+import { TypeRegisterForm } from '../page/newregister';
+import { TypeRegister } from '../types/typesRegisters';
 
 export const url: string = import.meta.env.VITE_BASE_URL_URL_API;
 
@@ -118,24 +119,32 @@ export const loginUser = async (body: {
   }
 };
 
-export const createdNewRegister = async (
-  isId: number,
-  token: string,
-  form: TypeCreatedRegister
-) => {
+export const createdNewRegister = async ({
+  isId,
+  form,
+}: {
+  isId: number;
+  form: TypeRegisterForm;
+}) => {
   try {
-    const response = await fetch(`${url}/register/createnewregister/${isId}`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(form),
-    });
+    const token = localStorage.getItem('token');
+    if (token) {
+      const response = await fetch(
+        `${url}/register/createnewregister/${isId}`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(form),
+        }
+      );
 
-    const data = await response.json();
+      const data = await response.json();
 
-    return data;
+      return data;
+    }
   } catch (error) {
     console.log('erro ao criar novo registro', error);
   }
