@@ -47,24 +47,30 @@ export const listAllRegisterNeedValidationByRole = async ({
   }
 };
 
-export const validationByTst = async (
-  userId: number,
-  registerId: number,
-  body: TypeValidationTst
-) => {
-  const response = await fetch(
-    `${url}/tst/validationregister/${registerId}/${userId}`,
-    {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    }
-  );
+export const validationByTst = async ({
+  isId,
+  idRegister,
+  body,
+}: {
+  isId: number | null;
+  idRegister: number | null;
+  body: TypeValidationTst;
+}) => {
+  if (isId && idRegister) {
+    const response = await fetch(
+      `${url}/tst/validationregister/${idRegister}/${isId}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      }
+    );
 
-  const infoValidation = await response.json();
-  return infoValidation;
+    const infoValidation = await response.json();
+    return infoValidation;
+  }
 };
 
 export const validationByAmbulatory = async (

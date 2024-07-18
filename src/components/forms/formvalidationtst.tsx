@@ -1,10 +1,11 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { z } from 'zod';
 import MessageValidation from '../messagevalidation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { GlobalContext } from '../../globalcontext/globalcontext';
 import { validationByTst } from '../../api/api';
+import { useMutation } from '@tanstack/react-query';
 
 const validationFormSchema = z.object({
   probabilidade: z.coerce.number().max(5),
@@ -15,6 +16,10 @@ const validationFormSchema = z.object({
 export type TypeValidationTst = z.infer<typeof validationFormSchema>;
 
 const FormValidationTst = ({ idRegister }: { idRegister: number }) => {
+  const { mutateAsync, data, isSuccess } = useMutation({
+    mutationFn: validationByTst,
+  });
+
   const {
     register,
     handleSubmit,
@@ -25,21 +30,13 @@ const FormValidationTst = ({ idRegister }: { idRegister: number }) => {
     resolver: zodResolver(validationFormSchema),
   });
 
-  const [isMensage, setMensage] = useState<string | null>(null);
-
   const { isId } = useContext(GlobalContext);
 
-  async function sendFormTst(data: TypeValidationTst) {
+  async function sendFormTst(body: TypeValidationTst) {
     try {
-      console.log(data);
-      data.fatorRiscoAcidente = +data.probabilidade * +data.gravidade;
+      body.fatorRiscoAcidente = +body.probabilidade * +body.gravidade;
       if (isId) {
-        const statusValidation = await validationByTst(isId, idRegister, data);
-
-        console.log(statusValidation);
-        if (statusValidation.warning === 'registro validado com sucesso!') {
-          setMensage(statusValidation.warning);
-        }
+        mutateAsync({ isId, idRegister, body });
       }
     } catch (error) {
       console.log(error);
@@ -48,9 +45,7 @@ const FormValidationTst = ({ idRegister }: { idRegister: number }) => {
 
   return (
     <div className=' flex flex-col max-h-[80%] overflow-y-auto'>
-      {isMensage && (
-        <MessageValidation isMenssage={isMensage} setMenssage={setMensage} />
-      )}
+      {isSuccess && <MessageValidation isMenssage={data.warning} />}
 
       <form
         className='flex flex-col gap-4 mt-5'
