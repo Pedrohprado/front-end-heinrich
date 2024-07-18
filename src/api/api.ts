@@ -24,19 +24,27 @@ export const listRegisterByUser = async (userId: number | null) => {
   }
 };
 
-export const listRegisterNeedValidationTst = async (userId: number) => {
-  const response = await fetch(`${url}/tst/showallregister/${userId}`);
-  const register = await response.json();
+export const listAllRegisterNeedValidationByRole = async ({
+  isRole,
+  isId,
+}: {
+  isRole: string | null;
+  isId: number | null;
+}) => {
+  if (isId && isRole)
+    if (isRole === 'STAFFAMBULATORY') {
+      const response = await fetch(`${url}/ambulatory/showallregister/${isId}`);
+      const register: TypeRegister[] | null = await response.json();
 
-  return register;
-};
+      return register;
+    }
 
-export const listRegisterNeedValidationAmbulatory = async (userId: number) => {
-  const response = await fetch(`${url}/ambulatory/showallregister/${userId}`);
+  if (isRole === 'STAFFTST') {
+    const response = await fetch(`${url}/tst/showallregister/${isId}`);
+    const register: TypeRegister[] | null = await response.json();
 
-  const listOfRegister = await response.json();
-
-  return listOfRegister;
+    return register;
+  }
 };
 
 export const validationByTst = async (

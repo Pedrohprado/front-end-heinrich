@@ -10,7 +10,7 @@ const Registers = () => {
   const { isId } = useContext(GlobalContext);
 
   const { data, isLoading } = useQuery({
-    queryKey: ['registersbyuser', isId],
+    queryKey: ['registersbyuser'],
     queryFn: () => listRegisterByUser(isId),
   });
 
