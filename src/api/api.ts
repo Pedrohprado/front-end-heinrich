@@ -5,6 +5,27 @@ import { TypeRegister } from '../types/typesRegisters';
 
 export const url: string = import.meta.env.VITE_BASE_URL_URL_API;
 
+export const getRegisterById = async (idRegister: number) => {
+  const token = localStorage.getItem('token');
+
+  if (token && idRegister) {
+    const response = await fetch(
+      `
+      ${url}/register/showuniqueregister/${idRegister}
+      `,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const register: TypeRegister = await response.json();
+
+    return register;
+  }
+};
+
 export const listRegisterByUser = async (userId: number | null) => {
   const token = localStorage.getItem('token');
 

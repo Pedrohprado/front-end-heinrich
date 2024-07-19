@@ -1,6 +1,7 @@
-import { RefObject } from 'react';
+import { RefObject, useState } from 'react';
 import { TypeRegister } from '../../types/typesRegisters';
 import Tag from '../tag';
+import AllInformationsByRegister from '../allinfobyregister';
 
 const RegisterCard = ({
   register,
@@ -11,6 +12,22 @@ const RegisterCard = ({
   position: number;
   contentRef: RefObject<HTMLDivElement>;
 }) => {
+  const [isModalInformations, setModalInformations] = useState<boolean>(false);
+  const [isIdRegister, setIdRegister] = useState<number | null>(null);
+
+  function handleClick(idRegister: number) {
+    setIdRegister(idRegister);
+    setModalInformations(true);
+  }
+
+  if (isModalInformations && isIdRegister)
+    return (
+      <AllInformationsByRegister
+        setModalInformations={setModalInformations}
+        idRegister={isIdRegister}
+      />
+    );
+
   return (
     <div
       className=' transition w-full flex items-center'
@@ -19,6 +36,7 @@ const RegisterCard = ({
     >
       {register.map((register: TypeRegister) => (
         <div
+          onClick={() => handleClick(register.id)}
           key={register.id}
           className=' rounded-md border p-2 flex-shrink-0 w-full flex flex-col gap-2'
         >
