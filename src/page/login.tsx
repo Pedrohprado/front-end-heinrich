@@ -1,27 +1,12 @@
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../globalcontext/globalcontext';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginUser } from '../api/api';
 import { useContext, useEffect } from 'react';
+import { loginFilterSchema, TypeLogin } from '../services/zodschemas';
+import { TypeResult } from '../types/typesLogin';
 
-const loginFiltersSchema = z.object({
-  nome: z.string().min(3, 'preencha o campo nome corretamente'),
-  cartao: z.string().min(4, 'preencha o campo cartão corretamente'),
-  password: z.string(),
-});
-
-type TypeLogin = z.infer<typeof loginFiltersSchema>;
-
-interface TypeResult {
-  id: number;
-  cartao: string;
-  nome: string;
-  role: string;
-  token: string;
-  warning?: string;
-}
 const Login = () => {
   const {
     register,
@@ -30,7 +15,7 @@ const Login = () => {
     formState: { errors, isSubmitting },
   } = useForm<TypeLogin>({
     mode: 'onChange',
-    resolver: zodResolver(loginFiltersSchema),
+    resolver: zodResolver(loginFilterSchema),
   });
 
   const navigate = useNavigate();
