@@ -6,7 +6,7 @@ import { GlobalContext } from '../globalcontext/globalcontext';
 import ListRegisterForUser from '../components/listsOfRegisters/listregisterbyuser';
 import { useQuery } from '@tanstack/react-query';
 
-const Registers = () => {
+const Home = () => {
   const { isId } = useContext(GlobalContext);
 
   const { data, isLoading } = useQuery({
@@ -16,7 +16,7 @@ const Registers = () => {
 
   return (
     <main className=' w-full h-screen p-5 pt-[20%] flex flex-col text-zinc-900 relative'>
-      <h1 className=' font-bold text-lg mb-5'>Meus registros</h1>
+      <h1 className=' font-bold text-lg my-4'>Meus registros</h1>
       {isLoading ? <div>carregando...</div> : null}
       {data && data.length > 0 && !isLoading ? (
         <ListRegisterForUser isRegisters={data} />
@@ -35,4 +35,4 @@ const Registers = () => {
   );
 };
 
-export default Registers;
+export default Home;
