@@ -7,9 +7,11 @@ import DotsNextAndPrev from './dotsnextandprev';
 const Carousel = ({
   register,
   title,
+  status,
 }: {
   register: TypeRegister[];
   title: string;
+  status: string;
 }) => {
   const [active, setActive] = useState(0);
   const [position, setPosition] = useState(0);
@@ -45,6 +47,7 @@ const Carousel = ({
 
       <div className=' mt-2'>
         <RegisterCard
+          status={status}
           register={register}
           position={position}
           contentRef={contentRef}

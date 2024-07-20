@@ -39,6 +39,7 @@ const ListRegisterForUser = ({
           <Carousel
             register={listRegisterNotValidation}
             title={'registros aguardando validação'}
+            status='aguardando validações'
           />
         ) : null}
 
@@ -46,6 +47,7 @@ const ListRegisterForUser = ({
           <Carousel
             register={listRegisterValidationByAmbulatory}
             title={'validados pelo ambulatório'}
+            status='validado pelo ambulatório'
           />
         ) : null}
 
@@ -53,6 +55,7 @@ const ListRegisterForUser = ({
           <Carousel
             register={listRegisterValidationByTst}
             title={'finalizados'}
+            status='validado'
           />
         ) : null}
       </main>

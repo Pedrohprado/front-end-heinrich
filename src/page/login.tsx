@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../globalcontext/globalcontext';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginUser } from '../api/api';
@@ -52,7 +52,7 @@ const Login = () => {
   }
 
   return (
-    <main className='w-screen h-screen px-5 py-20 flex flex-col justify-center text-stone-800 bg-emerald-100'>
+    <main className='w-screen h-screen px-5 py-10 flex flex-col justify-center text-stone-800 bg-emerald-100'>
       <div className=' w-full h-full bg-white rounded-xl flex flex-col justify-center p-5 '>
         <div className=' m-auto my-0 w-14 h-14 bg-emerald-950 rounded-xl'></div>
         <h1 className='font-bold text-lg py-6 text-center'>Acesse sua conta</h1>
@@ -93,9 +93,12 @@ const Login = () => {
               <ErrorMenssage errormenssage={errors.password.message} />
             )}
           </label>
-          <button className=' border-b w-[60%] m-auto text-sm'>
+          <Link
+            to={'/lostpassword'}
+            className=' border-b w-[60%] m-auto text-sm'
+          >
             esqueceu sua senha?
-          </button>
+          </Link>
           <button
             disabled={isSubmitting}
             className={`${

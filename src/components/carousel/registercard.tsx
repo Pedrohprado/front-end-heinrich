@@ -7,10 +7,12 @@ const RegisterCard = ({
   register,
   position,
   contentRef,
+  status,
 }: {
   register: TypeRegister[];
   position: number;
   contentRef: RefObject<HTMLDivElement>;
+  status: string;
 }) => {
   const [isModalInformations, setModalInformations] = useState<boolean>(false);
   const [isIdRegister, setIdRegister] = useState<number | null>(null);
@@ -25,6 +27,7 @@ const RegisterCard = ({
       <AllInformationsByRegister
         setModalInformations={setModalInformations}
         idRegister={isIdRegister}
+        status={status}
       />
     );
 
