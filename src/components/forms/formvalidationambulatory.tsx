@@ -1,26 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { GlobalContext } from '../../globalcontext/globalcontext';
 import { validationByAmbulatory } from '../../api/api';
 import MessageValidation from '../messagevalidation';
 import { useMutation } from '@tanstack/react-query';
-
-const validationFormSchema = z.object({
-  dataEntradaNoAmbulatorio: z.string(),
-  enfermeiroResponsavel: z.string().min(4, 'informe o(a) enfermeiro(a)'),
-  parteDoCorpoAtingida: z.string(),
-  lateralidadeDoCorpo: z.string(),
-  NaturezaDaLesao: z.string(),
-  cid: z.string().min(2),
-  diasDeAtestado: z.coerce.number(),
-  diasDeAfastamentoReal: z.coerce.number(),
-  unidadeDeAtendimento: z.string(),
-  descricaoDoAcidente: z.string().min(10),
-});
-
-export type TypeValidationAmbulatory = z.infer<typeof validationFormSchema>;
+import {
+  TypeValidationAmbulatory,
+  validationFormSchemaByAmbulatory,
+} from '../../services/zodschemas';
 
 const FormValidationAmbulatory = ({ idRegister }: { idRegister: number }) => {
   const { mutateAsync, data, isSuccess } = useMutation({
@@ -32,7 +20,7 @@ const FormValidationAmbulatory = ({ idRegister }: { idRegister: number }) => {
     formState: { errors, isSubmitting },
   } = useForm<TypeValidationAmbulatory>({
     mode: 'onChange',
-    resolver: zodResolver(validationFormSchema),
+    resolver: zodResolver(validationFormSchemaByAmbulatory),
   });
 
   const { isId } = useContext(GlobalContext);

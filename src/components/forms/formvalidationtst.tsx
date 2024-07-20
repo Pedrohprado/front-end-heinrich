@@ -1,19 +1,14 @@
 import { useContext } from 'react';
-import { z } from 'zod';
 import MessageValidation from '../messagevalidation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { GlobalContext } from '../../globalcontext/globalcontext';
 import { validationByTst } from '../../api/api';
 import { useMutation } from '@tanstack/react-query';
-
-const validationFormSchema = z.object({
-  probabilidade: z.coerce.number().max(5),
-  gravidade: z.coerce.number().max(5),
-  fatorRiscoAcidente: z.number().optional(),
-});
-
-export type TypeValidationTst = z.infer<typeof validationFormSchema>;
+import {
+  TypeValidationTst,
+  validationFormSchemaByTst,
+} from '../../services/zodschemas';
 
 const FormValidationTst = ({ idRegister }: { idRegister: number }) => {
   const { mutateAsync, data, isSuccess } = useMutation({
@@ -27,7 +22,7 @@ const FormValidationTst = ({ idRegister }: { idRegister: number }) => {
     formState: { errors, isSubmitting },
   } = useForm<TypeValidationTst>({
     mode: 'onChange',
-    resolver: zodResolver(validationFormSchema),
+    resolver: zodResolver(validationFormSchemaByTst),
   });
 
   const { isId } = useContext(GlobalContext);
