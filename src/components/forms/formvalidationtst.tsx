@@ -35,6 +35,7 @@ const FormValidationTst = ({ idRegister }: { idRegister: number }) => {
   async function sendFormTst(body: TypeValidationTst) {
     try {
       body.fatorRiscoAcidente = +body.probabilidade * +body.gravidade;
+      console.log(body);
       if (isId) {
         mutateAsync({ isId, idRegister, body });
       }

@@ -7,6 +7,7 @@ import NewRegister from './page/newregister';
 import Login from './page/login';
 import Header from './components/header';
 import Home from './page/home';
+import MyRegisters from './page/myregisters';
 
 function App() {
   return (
@@ -21,6 +22,14 @@ function App() {
             element={
               <ProtectRouter>
                 <Home />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            path='/myregisters'
+            element={
+              <ProtectRouter>
+                <MyRegisters />
               </ProtectRouter>
             }
           />

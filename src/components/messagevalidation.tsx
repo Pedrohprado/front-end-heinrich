@@ -23,7 +23,7 @@ const MessageValidation = ({ isMenssage }: { isMenssage: string }) => {
           timer = setTimeout(updateProgress, intervalTime);
         } else {
           setHidden(false);
-          navigate('/');
+          navigate('/myregisters');
         }
       };
 

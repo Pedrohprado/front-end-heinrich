@@ -5,7 +5,7 @@ import { TypeRegister } from '../types/typesRegisters';
 
 export const url: string = import.meta.env.VITE_BASE_URL_URL_API;
 
-export const getRegisterById = async (idRegister: number) => {
+export const getRegisterById = async (idRegister: number | null) => {
   const token = localStorage.getItem('token');
 
   if (token && idRegister) {
@@ -78,6 +78,7 @@ export const validationByTst = async ({
   body: TypeValidationTst;
 }) => {
   if (isId && idRegister) {
+    console.log('teste');
     const response = await fetch(
       `${url}/tst/validationregister/${idRegister}/${isId}`,
       {
