@@ -13,6 +13,8 @@ const registerInformationSchema = z.object({
   cartao: z.string().min(4, 'preencha o campo cartão'),
   setor: z.string().min(4, 'preencha o campo setor'),
   liderResponsavel: z.string().min(4, 'preencha o campo lider'),
+  cliente: z.string(),
+  produto: z.string(),
   descricao: z.string().min(5, 'descreva o ocorrido'),
 });
 
@@ -101,6 +103,24 @@ const NewRegister = () => {
             className=' px-2 py-3 border rounded-md font-light'
           />
           {errors.liderResponsavel && <p>{errors.liderResponsavel.message}</p>}
+        </label>
+        <label className=' flex flex-col font-medium text-sm gap-1'>
+          cliente
+          <input
+            {...register('cliente')}
+            type='text'
+            className=' px-2 py-3 border rounded-md font-light'
+          />
+          {errors.cliente && <p>{errors.cliente.message}</p>}
+        </label>
+        <label className=' flex flex-col font-medium text-sm gap-1'>
+          Produto
+          <input
+            {...register('produto')}
+            type='text'
+            className=' px-2 py-3 border rounded-md font-light'
+          />
+          {errors.produto && <p>{errors.produto.message}</p>}
         </label>
         <label className=' flex flex-col font-medium text-sm gap-1'>
           Descrição

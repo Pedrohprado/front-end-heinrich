@@ -99,14 +99,14 @@ const Header = () => {
                 validar
               </Link>
 
-              <Link
+              {/* <Link
                 className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft shadow-sm py-2'
                 onClick={() => setMenuOpen(!isMenuOpen)}
                 to={'/novostaff'}
               >
                 <IoPersonAdd />
                 novo staff
-              </Link>
+              </Link> */}
             </nav>
           )}
 

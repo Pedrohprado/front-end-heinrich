@@ -68,14 +68,11 @@ const FormValidationAmbulatory = ({ idRegister }: { idRegister: number }) => {
             className=' px-2 py-3 border rounded-md font-light'
           >
             <option hidden></option>
-            <option value='ato inseguro'>ato inseguro</option>
-            <option value='condição insegura'>condição insegura</option>
-            <option value='quase acidente'>quase acidente</option>
-            <option value='primeiros socorros'>primeiros socorros</option>
-            <option value='acidente leve'>ato inseguro</option>
-            <option value='acidente moderado'>acidente moderado</option>
-            <option value='acidente grave'>acidente grave</option>
-            <option value='fatalidade'>fatalidade</option>
+            <option value='olhos'>olhos</option>
+            <option value='cabeça'>cabeça</option>
+            <option value='mãos'>mãos</option>
+            <option value='peito'>peito</option>
+            <option value='pés'>pés</option>
           </select>
           {errors.parteDoCorpoAtingida && (
             <p>{errors.parteDoCorpoAtingida.message}</p>
