@@ -1,6 +1,8 @@
-import { TypeValidationTst } from '../components/forms/formvalidationtst';
 import { TypeRegisterForm } from '../page/newregister';
-import { TypeValidationAmbulatory } from '../services/zodschemas';
+import {
+  TypeValidationAmbulatory,
+  TypeValidationTst,
+} from '../services/zodschemas';
 import { TypeRegister } from '../types/typesRegisters';
 
 export const url: string = import.meta.env.VITE_BASE_URL_URL_API;
