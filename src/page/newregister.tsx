@@ -61,10 +61,7 @@ const NewRegister = () => {
             <option value='condição insegura'>condição insegura</option>
             <option value='quase acidente'>quase acidente</option>
             <option value='primeiros socorros'>primeiros socorros</option>
-            <option value='acidente leve'>ato inseguro</option>
-            <option value='acidente moderado'>acidente moderado</option>
-            <option value='acidente grave'>acidente grave</option>
-            <option value='fatalidade'>fatalidade</option>
+            <option value='acidente'>acidente</option>
           </select>
           {errors.nivelDoOcorrido && <p>{errors.nivelDoOcorrido.message}</p>}
         </label>

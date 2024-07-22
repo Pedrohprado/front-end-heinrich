@@ -15,12 +15,12 @@ const DotsNextAndPrev = ({
   return (
     <>
       {register.length > 1 && (
-        <div className=' relative flex justify-between mt-2'>
+        <div className=' relative flex justify-between mt-3'>
           <button
-            className=' text-white font-bold p-2 flex items-center justify-center rounded bg-slate-600'
+            className=' text-white font-bold p-1.5 flex items-center justify-center rounded bg-slate-600'
             onClick={prevSlide}
           >
-            <IoIosArrowBack />
+            <IoIosArrowBack size={15} />
           </button>
           <nav className=' flex items-center justify-center gap-1'>
             {register.map((dots: TypeRegister, index) => (
@@ -34,10 +34,10 @@ const DotsNextAndPrev = ({
           </nav>
 
           <button
-            className=' text-white font-bold p-2 flex items-center justify-center rounded bg-slate-600'
+            className=' text-white font-bold p-1.5 flex items-center justify-center rounded bg-slate-600'
             onClick={nextSlide}
           >
-            <IoIosArrowForward />
+            <IoIosArrowForward size={15} />
           </button>
         </div>
       )}

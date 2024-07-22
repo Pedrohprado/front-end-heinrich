@@ -35,7 +35,7 @@ const ListRegisterForUser = ({
   if (isRegisters) {
     return (
       <main className=' flex flex-col w-full gap-10'>
-        {listRegisterNotValidation.length ? (
+        {listRegisterNotValidation.length > 0 ? (
           <Carousel
             register={listRegisterNotValidation}
             title={'registros aguardando validação'}
@@ -51,7 +51,7 @@ const ListRegisterForUser = ({
           />
         ) : null}
 
-        {listRegisterValidationByTst.length ? (
+        {listRegisterValidationByTst.length > 0 ? (
           <Carousel
             register={listRegisterValidationByTst}
             title={'finalizados'}

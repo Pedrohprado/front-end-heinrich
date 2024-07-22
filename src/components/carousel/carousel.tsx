@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
-import { TypeRegister } from '../../types/typesRegisters';
+import { useEffect, useState } from 'react';
+import { OcorrenciasPorNivel, TypeRegister } from '../../types/typesRegisters';
 import TitleStatusBar from './titlestatusbar';
-import RegisterCard from './registercard';
-import DotsNextAndPrev from './dotsnextandprev';
+import SplitByLvlOfOccorrence from './splitbylvlofoccorrence';
 
 const Carousel = ({
   register,
@@ -13,52 +12,83 @@ const Carousel = ({
   title: string;
   status: string;
 }) => {
-  const [active, setActive] = useState(0);
-  const [position, setPosition] = useState(0);
+  const [isOccorrence, setOccorrence] = useState<null | OcorrenciasPorNivel>(
+    null
+  );
 
-  const contentRef = useRef<HTMLDivElement>(null);
-
+  //construir um filtro onde vai separar por categoria os registros
   useEffect(() => {
-    if (contentRef.current) {
-      const { width } = contentRef.current.getBoundingClientRect();
-      setPosition(-(width * active));
-    }
-  }, [active]);
+    const ocorrenciasPorNivel: OcorrenciasPorNivel = {};
 
-  const nextSlide = () => {
-    if (active < register.length - 1) {
-      setActive(active + 1);
-    } else {
-      setActive(0);
-    }
-  };
-
-  const prevSlide = () => {
-    if (active > 0) {
-      setActive(active - 1);
-    } else {
-      setActive(register.length - 1);
-    }
-  };
+    register.forEach((item) => {
+      item.nivelDoOcorrido;
+      const { nivelDoOcorrido } = item;
+      if (!ocorrenciasPorNivel[nivelDoOcorrido]) {
+        ocorrenciasPorNivel[nivelDoOcorrido] = [];
+      }
+      ocorrenciasPorNivel[nivelDoOcorrido].push(item);
+    });
+    setOccorrence(ocorrenciasPorNivel);
+    console.log(ocorrenciasPorNivel);
+  }, [register]);
 
   return (
-    <section className='overflow-hidden'>
+    <section className='overflow-hidden mb-5 bg-stone-50 p-2'>
       <TitleStatusBar title={title} />
-
-      <div className=' mt-2'>
-        <RegisterCard
-          status={status}
-          register={register}
-          position={position}
-          contentRef={contentRef}
-        />
-        <DotsNextAndPrev
-          prevSlide={prevSlide}
-          nextSlide={nextSlide}
-          register={register}
-          active={active}
-        />
-      </div>
+      {isOccorrence
+        ? Object.keys(isOccorrence).map((key, index) =>
+            key === 'ato inseguro' ? (
+              <SplitByLvlOfOccorrence
+                key={index}
+                lvlOccorrence={key}
+                register={isOccorrence[key]}
+                status={status}
+              />
+            ) : key === 'condição insegura' ? (
+              <SplitByLvlOfOccorrence
+                key={index}
+                lvlOccorrence={key}
+                register={isOccorrence[key]}
+                status={status}
+              />
+            ) : key === 'quase acidente' ? (
+              <SplitByLvlOfOccorrence
+                key={index}
+                lvlOccorrence={key}
+                register={isOccorrence[key]}
+                status={status}
+              />
+            ) : key === 'primeiros socorros' ? (
+              <SplitByLvlOfOccorrence
+                key={index}
+                lvlOccorrence={key}
+                register={isOccorrence[key]}
+                status={status}
+              />
+            ) : key === 'acidente moderado' ? (
+              <SplitByLvlOfOccorrence
+                key={index}
+                lvlOccorrence={key}
+                register={isOccorrence[key]}
+                status={status}
+              />
+            ) : key === 'acidente grave' ? (
+              <SplitByLvlOfOccorrence
+                key={index}
+                lvlOccorrence={key}
+                register={isOccorrence[key]}
+                status={status}
+              />
+            ) : key === 'fatalidade' ? (
+              <SplitByLvlOfOccorrence
+                key={index}
+                lvlOccorrence={key}
+                register={isOccorrence[key]}
+                status={status}
+              />
+            ) : null
+          )
+        : null}
     </section>
   );
 };

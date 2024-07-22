@@ -3,8 +3,6 @@ import { GlobalContext } from '../globalcontext/globalcontext';
 import { useQuery } from '@tanstack/react-query';
 import { listRegisterByUser } from '../api/api';
 import ListRegisterForUser from '../components/listsOfRegisters/listregisterbyuser';
-import { Link } from 'react-router-dom';
-import { FaPlus } from 'react-icons/fa';
 
 const MyRegisters = () => {
   const { isId } = useContext(GlobalContext);
@@ -23,14 +21,6 @@ const MyRegisters = () => {
       ) : (
         'você não tem nenhum registro'
       )}
-      <div className=' fixed bottom-5 right-0 w-full z-10 flex'>
-        <Link
-          to={'/novoregistro'}
-          className=' bottom-5 m-auto bg-slate-300 rounded-full p-3'
-        >
-          <FaPlus />
-        </Link>
-      </div>
     </main>
   );
 };
