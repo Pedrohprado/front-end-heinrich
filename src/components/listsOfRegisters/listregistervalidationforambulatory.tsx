@@ -11,6 +11,7 @@ const ListRegisterAmbulatory = ({
   const [isPageValidation, setPageValidation] = useState<boolean>(false);
   const [isIdRegister, setIdRegister] = useState<number | null>(null);
 
+  console.log(isRegisters);
   function handleValidation(id: number) {
     setIdRegister(id);
     setPageValidation(true);

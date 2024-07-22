@@ -17,7 +17,7 @@ const MyRegisters = () => {
       <h1 className=' font-bold text-lg my-4'>Meus registros</h1>
       {isLoading ? <div>carregando...</div> : null}
       {data && data.length > 0 && !isLoading ? (
-        <ListRegisterForUser isRegisters={data} />
+        <ListRegisterForUser isRegisters={data} myValidations={false} />
       ) : (
         'você não tem nenhum registro'
       )}

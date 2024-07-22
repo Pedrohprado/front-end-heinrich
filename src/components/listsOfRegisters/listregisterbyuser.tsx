@@ -3,8 +3,10 @@ import Carousel from '../carousel/carousel';
 
 const ListRegisterForUser = ({
   isRegisters,
+  myValidations,
 }: {
   isRegisters: TypeRegister[];
+  myValidations: boolean;
 }) => {
   const listRegisterNotValidation = isRegisters.filter(
     (register: TypeRegister) => {
@@ -45,9 +47,23 @@ const ListRegisterForUser = ({
       return register;
   });
 
+  if (isRegisters && myValidations) {
+    return (
+      <main>
+        {isRegisters.length > 0 ? (
+          <Carousel
+            register={isRegisters}
+            title={'Validados'}
+            status='validados'
+          />
+        ) : null}
+      </main>
+    );
+  }
+
   if (isRegisters) {
     return (
-      <main className=' flex flex-col w-full gap-3'>
+      <main className=' flex flex-col w-full  gap-3'>
         {listRegisterNotValidation.length > 0 ? (
           <Carousel
             register={listRegisterNotValidation}

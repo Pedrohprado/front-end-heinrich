@@ -98,6 +98,15 @@ const Header = () => {
                 <IoCheckboxOutline />
                 validar
               </Link>
+              <Link
+                className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft shadow-sm py-2
+              '
+                onClick={() => setMenuOpen(!isMenuOpen)}
+                to={'/registrosvalidados'}
+              >
+                <IoBook />
+                registros validados
+              </Link>
 
               <Link
                 className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft shadow-sm py-2'

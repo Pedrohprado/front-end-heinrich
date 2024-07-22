@@ -8,6 +8,8 @@ import Login from './page/login';
 import Header from './components/header';
 import Home from './page/home';
 import MyRegisters from './page/myregisters';
+import MyRegistersValidation from './page/myregistersvalidation';
+// import Footer from './components/footer';
 
 function App() {
   return (
@@ -50,7 +52,16 @@ function App() {
               </ProtectRouter>
             }
           />
+          <Route
+            path='/registrosvalidados'
+            element={
+              <ProtectRouter>
+                <MyRegistersValidation />
+              </ProtectRouter>
+            }
+          />
         </Routes>
+        {/* <Footer /> */}
       </BrowserRouter>
     </Context>
   );

@@ -191,3 +191,30 @@ export const createdNewRegister = async ({
     console.log('erro ao criar novo registro', error);
   }
 };
+
+export const allRegisterValidaitonByIdAndRole = async ({
+  isRole,
+  isId,
+}: {
+  isRole: string | null;
+  isId: number | null;
+}) => {
+  if (isId && isRole)
+    if (isRole === 'STAFFAMBULATORY') {
+      const response = await fetch(
+        `${url}/ambulatory/showregistervalidationbyid/${isId}`
+      );
+      const register: TypeRegister[] | null = await response.json();
+
+      return register;
+    }
+
+  if (isRole === 'STAFFTST') {
+    const response = await fetch(
+      `${url}/tst/showregistervalidationbyid/${isId}`
+    );
+    const register: TypeRegister[] | null = await response.json();
+
+    return register;
+  }
+};
