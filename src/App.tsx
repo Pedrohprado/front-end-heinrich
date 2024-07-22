@@ -9,6 +9,7 @@ import Header from './components/header';
 import Home from './page/home';
 import MyRegisters from './page/myregisters';
 import MyRegistersValidation from './page/myregistersvalidation';
+import NewUser from './page/newuser';
 // import Footer from './components/footer';
 
 function App() {
@@ -57,6 +58,14 @@ function App() {
             element={
               <ProtectRouter>
                 <MyRegistersValidation />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            path='/novouser'
+            element={
+              <ProtectRouter>
+                <NewUser />
               </ProtectRouter>
             }
           />
