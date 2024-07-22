@@ -15,7 +15,7 @@ const AllInformationsByRegister = ({
     queryKey: ['teste'],
     queryFn: () => getRegisterById(idRegister),
   });
-
+  //agora eu preciso adicionar uma funcionalidade de deletar e editar, e identifiacar se é um staff ou não
   if (data)
     return (
       <main className=' z-50 w-full h-screen fixed top-0 right-0 backdrop-blur-sm flex items-center justify-center'>
