@@ -1,58 +1,40 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { GlobalContext } from '../../globalcontext/globalcontext';
 import { validationByAmbulatory } from '../../api/api';
 import MessageValidation from '../messagevalidation';
-
-const validationFormSchema = z.object({
-  dataEntradaNoAmbulatorio: z.string(),
-  enfermeiroResponsavel: z.string().min(4, 'informe o(a) enfermeiro(a)'),
-  parteDoCorpoAtingida: z.string(),
-  lateralidadeDoCorpo: z.string(),
-  NaturezaDaLesao: z.string(),
-  cid: z.string().min(2),
-  diasDeAtestado: z.coerce.number(),
-  diasDeAfastamentoReal: z.coerce.number(),
-  unidadeDeAtendimento: z.string(),
-  descricaoDoAcidente: z.string().min(10),
-});
-
-export type TypeValidationAmbulatory = z.infer<typeof validationFormSchema>;
+import { useMutation } from '@tanstack/react-query';
+import {
+  TypeValidationAmbulatory,
+  validationFormSchemaByAmbulatory,
+} from '../../services/zodschemas';
 
 const FormValidationAmbulatory = ({ idRegister }: { idRegister: number }) => {
+  const { mutateAsync, data, isSuccess } = useMutation({
+    mutationFn: validationByAmbulatory,
+  });
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<TypeValidationAmbulatory>({
     mode: 'onChange',
-    resolver: zodResolver(validationFormSchema),
+    resolver: zodResolver(validationFormSchemaByAmbulatory),
   });
-
-  const [isMensage, setMensage] = useState<string | null>(null);
 
   const { isId } = useContext(GlobalContext);
 
-  async function sendFormAmbulatory(data: TypeValidationAmbulatory) {
-    console.log(data);
+  async function sendFormAmbulatory(body: TypeValidationAmbulatory) {
+    console.log(body);
 
     if (isId) {
-      const statusRegister: {
-        warning: string;
-      } = await validationByAmbulatory(isId, idRegister, data);
-      console.log(statusRegister);
-      if (statusRegister.warning === 'registro validado com sucesso!') {
-        setMensage(statusRegister.warning);
-      }
+      mutateAsync({ isId, idRegister, body });
     }
   }
   return (
     <div className=' flex flex-col max-h-[80%] overflow-y-auto'>
-      {isMensage && (
-        <MessageValidation isMenssage={isMensage} setMenssage={setMensage} />
-      )}
+      {isSuccess && <MessageValidation isMenssage={data.warning} />}
       <form
         className='flex flex-col gap-4 '
         onSubmit={handleSubmit(sendFormAmbulatory)}
@@ -86,14 +68,11 @@ const FormValidationAmbulatory = ({ idRegister }: { idRegister: number }) => {
             className=' px-2 py-3 border rounded-md font-light'
           >
             <option hidden></option>
-            <option value='ato inseguro'>ato inseguro</option>
-            <option value='condição insegura'>condição insegura</option>
-            <option value='quase acidente'>quase acidente</option>
-            <option value='primeiros socorros'>primeiros socorros</option>
-            <option value='acidente leve'>ato inseguro</option>
-            <option value='acidente moderado'>acidente moderado</option>
-            <option value='acidente grave'>acidente grave</option>
-            <option value='fatalidade'>fatalidade</option>
+            <option value='olhos'>olhos</option>
+            <option value='cabeça'>cabeça</option>
+            <option value='mãos'>mãos</option>
+            <option value='peito'>peito</option>
+            <option value='pés'>pés</option>
           </select>
           {errors.parteDoCorpoAtingida && (
             <p>{errors.parteDoCorpoAtingida.message}</p>

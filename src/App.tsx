@@ -3,10 +3,11 @@ import './App.css';
 import Context from './globalcontext/globalcontext';
 import ProtectRouter from './helpers/protectrouter';
 import RegisterValidation from './page/registervalidation';
-import Registers from './page/registers';
 import NewRegister from './page/newregister';
 import Login from './page/login';
 import Header from './components/header';
+import Home from './page/home';
+import MyRegisters from './page/myregisters';
 
 function App() {
   return (
@@ -20,7 +21,15 @@ function App() {
             path='/'
             element={
               <ProtectRouter>
-                <Registers />
+                <Home />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            path='/myregisters'
+            element={
+              <ProtectRouter>
+                <MyRegisters />
               </ProtectRouter>
             }
           />

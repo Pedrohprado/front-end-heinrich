@@ -1,20 +1,20 @@
-import { useContext, useState } from 'react';
-import { z } from 'zod';
+import { useContext } from 'react';
 import MessageValidation from '../messagevalidation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { GlobalContext } from '../../globalcontext/globalcontext';
 import { validationByTst } from '../../api/api';
-
-const validationFormSchema = z.object({
-  probabilidade: z.coerce.number().max(5),
-  gravidade: z.coerce.number().max(5),
-  fatorRiscoAcidente: z.number().optional(),
-});
-
-export type TypeValidationTst = z.infer<typeof validationFormSchema>;
+import { useMutation } from '@tanstack/react-query';
+import {
+  TypeValidationTst,
+  validationFormSchemaByTst,
+} from '../../services/zodschemas';
 
 const FormValidationTst = ({ idRegister }: { idRegister: number }) => {
+  const { mutateAsync, data, isSuccess } = useMutation({
+    mutationFn: validationByTst,
+  });
+
   const {
     register,
     handleSubmit,
@@ -22,24 +22,17 @@ const FormValidationTst = ({ idRegister }: { idRegister: number }) => {
     formState: { errors, isSubmitting },
   } = useForm<TypeValidationTst>({
     mode: 'onChange',
-    resolver: zodResolver(validationFormSchema),
+    resolver: zodResolver(validationFormSchemaByTst),
   });
-
-  const [isMensage, setMensage] = useState<string | null>(null);
 
   const { isId } = useContext(GlobalContext);
 
-  async function sendFormTst(data: TypeValidationTst) {
+  async function sendFormTst(body: TypeValidationTst) {
     try {
-      console.log(data);
-      data.fatorRiscoAcidente = +data.probabilidade * +data.gravidade;
+      body.fatorRiscoAcidente = +body.probabilidade * +body.gravidade;
+      console.log(body);
       if (isId) {
-        const statusValidation = await validationByTst(isId, idRegister, data);
-
-        console.log(statusValidation);
-        if (statusValidation.warning === 'registro validado com sucesso!') {
-          setMensage(statusValidation.warning);
-        }
+        mutateAsync({ isId, idRegister, body });
       }
     } catch (error) {
       console.log(error);
@@ -48,9 +41,7 @@ const FormValidationTst = ({ idRegister }: { idRegister: number }) => {
 
   return (
     <div className=' flex flex-col max-h-[80%] overflow-y-auto'>
-      {isMensage && (
-        <MessageValidation isMenssage={isMensage} setMenssage={setMensage} />
-      )}
+      {isSuccess && <MessageValidation isMenssage={data.warning} />}
 
       <form
         className='flex flex-col gap-4 mt-5'
