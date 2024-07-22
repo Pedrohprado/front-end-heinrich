@@ -10,7 +10,8 @@ const ListRegisterForUser = ({
     (register: TypeRegister) => {
       if (
         register.validadorAmbulatorioId === null &&
-        register.validadorTSTId === null
+        register.validadorTSTId === null &&
+        !register.nivelDoOcorrido.includes('ato')
       )
         return register;
     }
@@ -32,9 +33,21 @@ const ListRegisterForUser = ({
       return register;
   });
 
+  const listRegisterTypeAto = isRegisters.filter((register) => {
+    if (register.nivelDoOcorrido.includes('ato')) return register;
+  });
+
+  const listRegisterTypeCondition = isRegisters.filter((register) => {
+    if (
+      register.nivelDoOcorrido.includes('condição') &&
+      register.validadorTSTId
+    )
+      return register;
+  });
+
   if (isRegisters) {
     return (
-      <main className=' flex flex-col w-full gap-10'>
+      <main className=' flex flex-col w-full gap-3'>
         {listRegisterNotValidation.length > 0 ? (
           <Carousel
             register={listRegisterNotValidation}
@@ -55,6 +68,22 @@ const ListRegisterForUser = ({
           <Carousel
             register={listRegisterValidationByTst}
             title={'finalizados'}
+            status='validado'
+          />
+        ) : null}
+
+        {listRegisterTypeAto.length > 0 ? (
+          <Carousel
+            register={listRegisterTypeAto}
+            title={'atos'}
+            status='validado'
+          />
+        ) : null}
+
+        {listRegisterTypeCondition.length > 0 ? (
+          <Carousel
+            register={listRegisterTypeCondition}
+            title={'condições'}
             status='validado'
           />
         ) : null}

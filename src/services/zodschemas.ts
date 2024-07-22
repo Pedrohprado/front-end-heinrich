@@ -22,6 +22,7 @@ export const validationFormSchemaByAmbulatory = z.object({
   diasDeAtestado: z.coerce.number(),
   diasDeAfastamentoReal: z.coerce.number(),
   unidadeDeAtendimento: z.string(),
+  nivelDoOcorrido: z.string(),
   descricaoDoAcidente: z.string().min(10),
 });
 

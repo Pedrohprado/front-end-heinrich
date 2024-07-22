@@ -2,7 +2,7 @@ const TitleStatusBar = ({ title }: { title: string }) => {
   return (
     <>
       <h2 className=' text-sm font-bold'>{title}</h2>
-      {title === 'finalizados' && (
+      {title === 'finalizados' || title === 'atos' || title === 'condições' ? (
         <div className=' mt-1.5 mb-5 flex gap-2 items-center'>
           {Array.from({ length: 3 }).map((_, index) => (
             <div
@@ -11,7 +11,7 @@ const TitleStatusBar = ({ title }: { title: string }) => {
             ></div>
           ))}
         </div>
-      )}
+      ) : null}
 
       {title === 'validados pelo ambulatório' && (
         <div className=' mt-1.5 mb-5 flex gap-2 items-center'>

@@ -10,7 +10,7 @@ const MessageValidation = ({ isMenssage }: { isMenssage: string }) => {
   useEffect(() => {
     if (isHidden) {
       let timer: number;
-      const endTime = 5000;
+      const endTime = 2000;
       const intervalTime = 10;
 
       const startTime = Date.now();

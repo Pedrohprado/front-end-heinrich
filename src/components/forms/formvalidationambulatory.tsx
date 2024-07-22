@@ -151,6 +151,20 @@ const FormValidationAmbulatory = ({ idRegister }: { idRegister: number }) => {
           )}
         </label>
         <label className='flex flex-col font-medium text-sm gap-1'>
+          Qual o nível do acidente?
+          <select
+            {...register('nivelDoOcorrido')}
+            className=' px-2 py-3 border rounded-md font-light'
+          >
+            <option hidden></option>
+            <option value='acidente leve'>acidente leve</option>
+            <option value='acidente moderado'>acidente moderado</option>
+            <option value='acidente grave'>acidente grave</option>
+            <option value='fatalidade'>fatalidade</option>
+          </select>
+          {errors.nivelDoOcorrido && <p>{errors.nivelDoOcorrido.message}</p>}
+        </label>
+        <label className='flex flex-col font-medium text-sm gap-1'>
           descrição do acidente
           <input
             {...register('descricaoDoAcidente')}

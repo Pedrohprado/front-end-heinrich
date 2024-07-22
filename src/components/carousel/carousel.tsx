@@ -18,6 +18,7 @@ const Carousel = ({
 
   //construir um filtro onde vai separar por categoria os registros
   useEffect(() => {
+    console.log(register);
     const ocorrenciasPorNivel: OcorrenciasPorNivel = {};
 
     register.forEach((item) => {
@@ -59,6 +60,20 @@ const Carousel = ({
                 status={status}
               />
             ) : key === 'primeiros socorros' ? (
+              <SplitByLvlOfOccorrence
+                key={index}
+                lvlOccorrence={key}
+                register={isOccorrence[key]}
+                status={status}
+              />
+            ) : key === 'acidente' ? (
+              <SplitByLvlOfOccorrence
+                key={index}
+                lvlOccorrence={key}
+                register={isOccorrence[key]}
+                status={status}
+              />
+            ) : key === 'acidente leve' ? (
               <SplitByLvlOfOccorrence
                 key={index}
                 lvlOccorrence={key}
