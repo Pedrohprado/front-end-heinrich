@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import { RiMenu3Fill, RiCloseFill } from 'react-icons/ri';
 import {
+  IoBook,
   IoHomeSharp,
   IoPencilSharp,
   IoCheckboxOutline,
@@ -66,6 +67,14 @@ const Header = () => {
               <IoHomeSharp />
               início
             </Link>
+            <Link
+              className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft shadow-sm py-2'
+              onClick={() => setMenuOpen(!isMenuOpen)}
+              to={'/myregisters'}
+            >
+              <IoBook />
+              meus registros
+            </Link>
 
             <Link
               className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft shadow-sm py-2'
@@ -89,11 +98,20 @@ const Header = () => {
                 <IoCheckboxOutline />
                 validar
               </Link>
+              <Link
+                className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft shadow-sm py-2
+              '
+                onClick={() => setMenuOpen(!isMenuOpen)}
+                to={'/registrosvalidados'}
+              >
+                <IoBook />
+                registros validados
+              </Link>
 
               <Link
                 className=' flex items-center gap-2 opacity-0 translate-y-[-100px] animate-animationleft shadow-sm py-2'
                 onClick={() => setMenuOpen(!isMenuOpen)}
-                to={'/novostaff'}
+                to={'/novouser'}
               >
                 <IoPersonAdd />
                 novo staff

@@ -32,6 +32,10 @@ export interface TypeRegister {
   validadorTSTId: null | number;
 }
 
+export interface OcorrenciasPorNivel {
+  [key: string]: null | TypeRegister[];
+}
+
 export interface TypeCreatedRegister {
   nome: string;
   cartao: string;

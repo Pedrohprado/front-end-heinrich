@@ -1,63 +1,113 @@
-import { TypeValidationAmbulatory } from '../components/forms/formvalidationambulatory';
-import { TypeValidationTst } from '../components/forms/formvalidationtst';
-import { TypeCreatedRegister } from '../types/typesRegisters';
+import { TypeRegisterForm } from '../page/newregister';
+import {
+  TypeValidationAmbulatory,
+  TypeValidationTst,
+} from '../services/zodschemas';
+import { TypeRegister } from '../types/typesRegisters';
 
 export const url: string = import.meta.env.VITE_BASE_URL_URL_API;
 
-export const listRegisterByUser = async (userId: number, token: string) => {
-  const response = await fetch(`${url}/register/showregisterbyuser/${userId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+export const getRegisterById = async (idRegister: number | null) => {
+  const token = localStorage.getItem('token');
 
-  const data = await response.json();
+  if (token && idRegister) {
+    const response = await fetch(
+      `
+      ${url}/register/showuniqueregister/${idRegister}
+      `,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-  return data.reverse();
+    const register: TypeRegister = await response.json();
+
+    return register;
+  }
 };
 
-export const listRegisterNeedValidationTst = async (userId: number) => {
-  const response = await fetch(`${url}/tst/showallregister/${userId}`);
-  const register = await response.json();
+export const listRegisterByUser = async (userId: number | null) => {
+  const token = localStorage.getItem('token');
 
-  return register;
+  if (token && userId) {
+    const response = await fetch(
+      `${url}/register/showregisterbyuser/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const data: TypeRegister[] = await response.json();
+
+    return data.reverse();
+  }
 };
 
-export const listRegisterNeedValidationAmbulatory = async (userId: number) => {
-  const response = await fetch(`${url}/ambulatory/showallregister/${userId}`);
+export const listAllRegisterNeedValidationByRole = async ({
+  isRole,
+  isId,
+}: {
+  isRole: string | null;
+  isId: number | null;
+}) => {
+  if (isId && isRole)
+    if (isRole === 'STAFFAMBULATORY') {
+      const response = await fetch(`${url}/ambulatory/showallregister/${isId}`);
+      const register: TypeRegister[] | null = await response.json();
 
-  const listOfRegister = await response.json();
-
-  return listOfRegister;
-};
-
-export const validationByTst = async (
-  userId: number,
-  registerId: number,
-  body: TypeValidationTst
-) => {
-  const response = await fetch(
-    `${url}/tst/validationregister/${registerId}/${userId}`,
-    {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
+      return register;
     }
-  );
 
-  const infoValidation = await response.json();
-  return infoValidation;
+  if (isRole === 'STAFFTST') {
+    const response = await fetch(`${url}/tst/showallregister/${isId}`);
+    const register: TypeRegister[] | null = await response.json();
+
+    return register;
+  }
 };
 
-export const validationByAmbulatory = async (
-  userId: number,
-  registerId: number,
-  body: TypeValidationAmbulatory
-) => {
+export const validationByTst = async ({
+  isId,
+  idRegister,
+  body,
+}: {
+  isId: number | null;
+  idRegister: number | null;
+  body: TypeValidationTst;
+}) => {
+  if (isId && idRegister) {
+    console.log('teste');
+    const response = await fetch(
+      `${url}/tst/validationregister/${idRegister}/${isId}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      }
+    );
+
+    const infoValidation = await response.json();
+    return infoValidation;
+  }
+};
+
+export const validationByAmbulatory = async ({
+  isId,
+  idRegister,
+  body,
+}: {
+  isId: number | null;
+  idRegister: number | null;
+  body: TypeValidationAmbulatory;
+}) => {
   const response = await fetch(
-    `${url}/ambulatory/validationregister/${registerId}/${userId}`,
+    `${url}/ambulatory/validationregister/${idRegister}/${isId}`,
     {
       method: 'PUT',
       headers: {
@@ -111,25 +161,60 @@ export const loginUser = async (body: {
   }
 };
 
-export const createdNewRegister = async (
-  isId: number,
-  token: string,
-  form: TypeCreatedRegister
-) => {
+export const createdNewRegister = async ({
+  isId,
+  form,
+}: {
+  isId: number;
+  form: TypeRegisterForm;
+}) => {
   try {
-    const response = await fetch(`${url}/register/createnewregister/${isId}`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(form),
-    });
+    const token = localStorage.getItem('token');
+    if (token) {
+      const response = await fetch(
+        `${url}/register/createnewregister/${isId}`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(form),
+        }
+      );
 
-    const data = await response.json();
+      const data = await response.json();
 
-    return data;
+      return data;
+    }
   } catch (error) {
     console.log('erro ao criar novo registro', error);
+  }
+};
+
+export const allRegisterValidaitonByIdAndRole = async ({
+  isRole,
+  isId,
+}: {
+  isRole: string | null;
+  isId: number | null;
+}) => {
+  if (isId && isRole)
+    if (isRole === 'STAFFAMBULATORY') {
+      const response = await fetch(
+        `${url}/ambulatory/showregistervalidationbyid/${isId}`
+      );
+      const register: TypeRegister[] | null = await response.json();
+
+      return register;
+    }
+
+  if (isRole === 'STAFFTST') {
+    const response = await fetch(
+      `${url}/tst/showregistervalidationbyid/${isId}`
+    );
+    const register: TypeRegister[] | null = await response.json();
+
+    return register;
   }
 };

@@ -1,27 +1,13 @@
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../globalcontext/globalcontext';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginUser } from '../api/api';
 import { useContext, useEffect } from 'react';
+import { loginFilterSchema, TypeLogin } from '../services/zodschemas';
+import { TypeResult } from '../types/typesLogin';
+import ErrorMenssage from '../components/errormenssage';
 
-const loginFiltersSchema = z.object({
-  nome: z.string().min(3, 'preencha o campo nome corretamente'),
-  cartao: z.string().min(4, 'preencha o campo cartão corretamente'),
-  password: z.string(),
-});
-
-type TypeLogin = z.infer<typeof loginFiltersSchema>;
-
-interface TypeResult {
-  id: number;
-  cartao: string;
-  nome: string;
-  role: string;
-  token: string;
-  warning?: string;
-}
 const Login = () => {
   const {
     register,
@@ -30,7 +16,7 @@ const Login = () => {
     formState: { errors, isSubmitting },
   } = useForm<TypeLogin>({
     mode: 'onChange',
-    resolver: zodResolver(loginFiltersSchema),
+    resolver: zodResolver(loginFilterSchema),
   });
 
   const navigate = useNavigate();
@@ -56,59 +42,76 @@ const Login = () => {
         setRole(info.role);
         setLogin(true);
         navigate('/');
-        console.log(info);
       }
     } catch (error) {
       console.log(error);
       setError('root', {
-        message: 'json que vem do back end',
+        message: 'erro ao tentar conctar-se com o servidor, tente novamente.',
       });
     }
   }
 
   return (
-    <main className='w-full h-screen px-10 py-24 flex flex-col text-zinc-900'>
-      <h1 className='font-bold text-xl mb-5'>Identificação</h1>
-      <form
-        className='flex flex-col gap-6'
-        onSubmit={handleSubmit(sendLoginUser)}
-      >
-        <label className='flex flex-col font-medium text-sm gap-1'>
-          Nome
-          <input
-            {...register('nome')}
-            type='text'
-            className='px-2 py-3 border rounded-md font-light'
-          />
-          {errors.nome && <p>{errors.nome.message}</p>}
-        </label>
-        <label className='flex flex-col font-medium text-sm gap-1'>
-          Cartão
-          <input
-            {...register('cartao')}
-            type='text'
-            className='px-2 py-3 border rounded-md font-light'
-          />
-          {errors.cartao && <p>{errors.cartao.message}</p>}
-        </label>
-        <label className='flex flex-col font-medium text-sm gap-1'>
-          Senha
-          <input
-            {...register('password')}
-            type='password'
-            className='px-2 py-3 border rounded-md font-light'
-          />
-        </label>
-        <button
-          disabled={isSubmitting}
-          className={`${
-            isSubmitting ? 'bg-slate-300' : 'bg-green-900'
-          } rounded-md w-full py-2 text-white font-semibold`}
+    <main className='w-screen h-screen px-5 py-10 flex flex-col justify-center text-stone-800 bg-emerald-100'>
+      <div className=' w-full h-full bg-white rounded-xl flex flex-col justify-center p-5 '>
+        <div className=' m-auto my-0 w-14 h-14 bg-emerald-950 rounded-xl'></div>
+        <h1 className='font-bold text-lg py-6 text-center'>Acesse sua conta</h1>
+        <form
+          className='flex flex-col gap-6'
+          onSubmit={handleSubmit(sendLoginUser)}
         >
-          {isSubmitting ? 'carregando...' : 'login'}
-        </button>
-        {errors.root && <p>{errors.root.message}</p>}
-      </form>
+          <label className='flex flex-col font-medium text-sm gap-1'>
+            Nome
+            <input
+              {...register('nome')}
+              type='text'
+              className='px-2 py-3 border rounded-md font-light'
+            />
+            {errors.nome?.message && (
+              <ErrorMenssage errormenssage={errors.nome.message} />
+            )}
+          </label>
+          <label className='flex flex-col font-medium text-sm gap-1'>
+            Cartão
+            <input
+              {...register('cartao')}
+              type='text'
+              className='px-2 py-3 border rounded-md font-light'
+            />
+            {errors.cartao?.message && (
+              <ErrorMenssage errormenssage={errors.cartao.message} />
+            )}
+          </label>
+          <label className='flex flex-col font-medium text-sm gap-1'>
+            Senha
+            <input
+              {...register('password')}
+              type='password'
+              className='px-2 py-3 border rounded-md font-light'
+            />
+            {errors.password?.message && (
+              <ErrorMenssage errormenssage={errors.password.message} />
+            )}
+          </label>
+          <Link
+            to={'/lostpassword'}
+            className=' border-b w-[60%] m-auto text-sm'
+          >
+            esqueceu sua senha?
+          </Link>
+          <button
+            disabled={isSubmitting}
+            className={`${
+              isSubmitting ? 'bg-slate-300' : 'bg-zinc-900'
+            } rounded-md w-full py-2 text-white font-semibold`}
+          >
+            {isSubmitting ? 'carregando...' : 'continuar'}
+          </button>
+          {errors.root?.message && (
+            <ErrorMenssage errormenssage={errors.root.message} />
+          )}
+        </form>
+      </div>
     </main>
   );
 };

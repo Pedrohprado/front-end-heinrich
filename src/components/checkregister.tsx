@@ -1,13 +1,12 @@
 //I need created a new inputs for register, when, i register why staff validated register, and add new inputs for ambulatório
-import { useContext, useEffect, useState } from 'react';
-import { url } from '../api/api';
+import { useContext } from 'react';
+import { getRegisterById } from '../api/api';
 import { IoIosArrowBack } from 'react-icons/io';
-
-import { TypeRegister } from '../types/typesRegisters';
 import Tag from './tag';
 import { GlobalContext } from '../globalcontext/globalcontext';
 import FormValidationAmbulatory from './forms/formvalidationambulatory';
 import FormValidationTst from './forms/formvalidationtst';
+import { useQuery } from '@tanstack/react-query';
 
 const CheckRegister = ({
   setPageValidation,
@@ -16,21 +15,12 @@ const CheckRegister = ({
   setPageValidation: (isPageValidation: boolean) => void;
   isIdRegister: number | null;
 }) => {
-  const [isRegister, setRegister] = useState<TypeRegister | null>(null);
-
   const { isRole } = useContext(GlobalContext);
 
-  useEffect(() => {
-    async function getUniqueRegisterById() {
-      const response = await fetch(
-        `${url}/register/showuniqueregister/${isIdRegister}`
-      );
-      const data = await response.json();
-      setRegister(data);
-      console.log(data);
-    }
-    if (isIdRegister) getUniqueRegisterById();
-  }, [isIdRegister]);
+  const { data } = useQuery({
+    queryKey: ['registerinformations'],
+    queryFn: () => getRegisterById(isIdRegister),
+  });
 
   return (
     <section className=' w-full h-full fixed top-0 right-0 flex items-center justify-center bg-opacity-65 z-40 bg-zinc-700'>
@@ -41,19 +31,19 @@ const CheckRegister = ({
         >
           <IoIosArrowBack size={22} />
         </button>
-        {isRegister && (
+        {data && (
           <div className=' w-full mt-2 flex flex-col gap-2'>
-            <Tag level={isRegister.nivelDoOcorrido} />
-            <p>{isRegister.descricao}</p>
+            <Tag level={data.nivelDoOcorrido} />
+            <p>{data.descricao}</p>
           </div>
         )}
 
-        {isRegister && isRole === 'STAFFTST' ? (
-          <FormValidationTst idRegister={isRegister.id} />
+        {data && isRole === 'STAFFTST' ? (
+          <FormValidationTst idRegister={data.id} />
         ) : null}
 
-        {isRegister && isRole === 'STAFFAMBULATORY' ? (
-          <FormValidationAmbulatory idRegister={isRegister.id} />
+        {data && isRole === 'STAFFAMBULATORY' ? (
+          <FormValidationAmbulatory idRegister={data.id} />
         ) : null}
       </div>
     </section>

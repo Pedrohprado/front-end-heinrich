@@ -12,6 +12,7 @@ const ListRegisterValidationForTst = ({
   const [isIdRegister, setIdRegister] = useState<number | null>(null);
 
   function handleValidation(id: number) {
+    console.log(id);
     setIdRegister(id);
     setPageValidation(true);
   }
