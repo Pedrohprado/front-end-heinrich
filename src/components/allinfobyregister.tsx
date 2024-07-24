@@ -3,6 +3,7 @@ import { IoCloseSharp } from 'react-icons/io5';
 import { getRegisterById } from '../api/api';
 import Tag from './tag';
 import RiskAssessment from './graphcs/riskassessment';
+import SliceOfBody from './graphcs/sliceofbody';
 
 const AllInformationsByRegister = ({
   idRegister,
@@ -164,6 +165,14 @@ const AllInformationsByRegister = ({
                     </p>
                   </div>
                 </div>
+                {data.parteDoCorpoAtingida ? (
+                  <div className=' flex  flex-col gap-1 w-full'>
+                    <h2 className=' font-semibold text-sm'>
+                      partes do corpo atingida
+                    </h2>
+                    <SliceOfBody />
+                  </div>
+                ) : null}
                 <div className=' flex  flex-col gap-1 w-full mt-2'>
                   <h2 className=' font-semibold text-sm'>
                     descrição do acidente
@@ -177,7 +186,7 @@ const AllInformationsByRegister = ({
           )}
 
           {data.validadorTSTId && (
-            <div className=' mt-2'>
+            <div className=' mt-2 flex flex-col gap-2'>
               <h2 className=' mb-1 text-sm font-bold'>informações TST</h2>
               <div className=' flex flex-col gap-2 p-2 border rounded'>
                 <div className=' flex items-center gap-2'>
@@ -208,6 +217,13 @@ const AllInformationsByRegister = ({
                     />
                   </div>
                 ) : null}
+              </div>
+              <div className=' flex  flex-col gap-1 w-full'>
+                <h2 className=' font-semibold text-sm'>data da validação</h2>
+                <p className=' border rounded text-sm p-2 w-full'>
+                  {data.dataValidacaoTST &&
+                    new Date(data.dataValidacaoTST).toLocaleDateString()}
+                </p>
               </div>
             </div>
           )}
