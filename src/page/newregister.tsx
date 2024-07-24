@@ -2,10 +2,11 @@ import { createdNewRegister } from '../api/api';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useContext } from 'react';
+import { ChangeEvent, useContext, useState } from 'react';
 import { GlobalContext } from '../globalcontext/globalcontext';
 import MessageValidation from '../components/messagevalidation';
 import { useMutation } from '@tanstack/react-query';
+import { IoTrash } from 'react-icons/io5';
 
 const registerInformationSchema = z.object({
   nivelDoOcorrido: z.string(),
@@ -16,12 +17,14 @@ const registerInformationSchema = z.object({
   cliente: z.string(),
   produto: z.string(),
   descricao: z.string().min(5, 'descreva o ocorrido'),
-  imagens: z.instanceof(FileList),
+  // imagens: z.instanceof(FileList),
+  imagens: z.any(),
 });
 
 export type TypeRegisterForm = z.infer<typeof registerInformationSchema>;
 
 const NewRegister = () => {
+  const [images, setImages] = useState<File[]>([]);
   const { mutateAsync, data, isSuccess } = useMutation({
     mutationFn: createdNewRegister,
   });
@@ -37,9 +40,24 @@ const NewRegister = () => {
 
   const { isId } = useContext(GlobalContext);
 
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files) return;
+
+    // Convert FileList to Array
+    const selectedImages = Array.from(event.target.files);
+    // console.log(selectedImages);
+
+    // Ensure only up to 3 images are selected
+    const slicedImages = selectedImages.slice(0, 3);
+
+    // Update state with selected images
+    setImages(slicedImages);
+  };
+
   async function sendRegister(form: TypeRegisterForm) {
     if (isId) {
       console.log(form);
+      form.imagens = images;
       mutateAsync({ isId, form });
     }
   }
@@ -50,7 +68,7 @@ const NewRegister = () => {
       <h1 className='font-bold text-xl mb-5'>Registrar novo ocorrido</h1>
       <form
         onSubmit={handleSubmit(sendRegister)}
-        className='flex flex-col gap-6'
+        className='flex flex-col gap-6 py-5'
       >
         <label className=' flex flex-col font-medium text-sm gap-1'>
           possível nível do ocorrido
@@ -134,12 +152,36 @@ const NewRegister = () => {
           Adicione algumas imagens:
           <input
             multiple
-            {...register('imagens')}
+            onChange={handleChange}
+            accept='image/*'
             type='file'
-            className=' px-2 py-3 border rounded-md font-light'
+            className=' px-2 py-3 border-2 rounded-md font-light border-dashed'
           />
-          {errors.imagens && <p>{errors.imagens.message}</p>}
         </label>
+        {images.length > 0 && (
+          <div className=' flex gap-1 '>
+            {images.map((image, index) => (
+              <div key={index} className=' relative'>
+                <div
+                  className={` ${
+                    images.length === 1 ? 'p-2' : 'p-1'
+                  }  bg-red-200 absolute top-1 left-1 rounded text-red-600`}
+                  onClick={() => {
+                    const newImages = [...images];
+                    newImages.splice(index, 1);
+                    setImages(newImages);
+                  }}
+                >
+                  <IoTrash />
+                </div>
+                <img
+                  src={URL.createObjectURL(image)}
+                  alt={`Preview ${index}`}
+                />
+              </div>
+            ))}
+          </div>
+        )}
 
         <button
           disabled={isSubmitting}
