@@ -14,6 +14,7 @@ const FormValidationAmbulatory = ({ idRegister }: { idRegister: number }) => {
   const { mutateAsync, data, isSuccess } = useMutation({
     mutationFn: validationByAmbulatory,
   });
+
   const {
     register,
     handleSubmit,
