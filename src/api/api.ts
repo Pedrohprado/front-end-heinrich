@@ -171,15 +171,29 @@ export const createdNewRegister = async ({
   try {
     const token = localStorage.getItem('token');
     if (token) {
+      const formData = new FormData();
+      formData.append('nivelDoOcorrido', form.nivelDoOcorrido);
+      formData.append('nome', form.nome);
+      formData.append('cartao', form.cartao);
+      formData.append('setor', form.setor);
+      formData.append('liderResponsavel', form.liderResponsavel);
+      formData.append('cliente', form.cliente);
+      formData.append('produto', form.produto);
+      formData.append('descricao', form.descricao);
+
+      if (form.imagens) {
+        for (let i = 0; i < form.imagens.length; i++) {
+          formData.append('imagens', form.imagens[i]);
+        }
+      }
       const response = await fetch(
         `${url}/register/createnewregister/${isId}`,
         {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
           },
-          body: JSON.stringify(form),
+          body: formData,
         }
       );
 
@@ -191,7 +205,36 @@ export const createdNewRegister = async ({
     console.log('erro ao criar novo registro', error);
   }
 };
+// export const createdNewRegister = async ({
+//   isId,
+//   form,
+// }: {
+//   isId: number;
+//   form: TypeRegisterForm;
+// }) => {
+//   try {
+//     const token = localStorage.getItem('token');
+//     if (token) {
+//       const response = await fetch(
+//         `${url}/register/createnewregister/${isId}`,
+//         {
+//           method: 'POST',
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//             'Content-Type': 'application/json',
+//           },
+//           body: JSON.stringify(form),
+//         }
+//       );
 
+//       const data = await response.json();
+
+//       return data;
+//     }
+//   } catch (error) {
+//     console.log('erro ao criar novo registro', error);
+//   }
+// };
 export const allRegisterValidaitonByIdAndRole = async ({
   isRole,
   isId,

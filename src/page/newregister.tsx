@@ -16,6 +16,7 @@ const registerInformationSchema = z.object({
   cliente: z.string(),
   produto: z.string(),
   descricao: z.string().min(5, 'descreva o ocorrido'),
+  imagens: z.instanceof(FileList),
 });
 
 export type TypeRegisterForm = z.infer<typeof registerInformationSchema>;
@@ -30,14 +31,15 @@ const NewRegister = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<TypeRegisterForm>({
-    mode: 'onChange',
     resolver: zodResolver(registerInformationSchema),
+    mode: 'onChange',
   });
 
   const { isId } = useContext(GlobalContext);
 
   async function sendRegister(form: TypeRegisterForm) {
     if (isId) {
+      console.log(form);
       mutateAsync({ isId, form });
     }
   }
@@ -128,6 +130,17 @@ const NewRegister = () => {
           />
           {errors.descricao && <p>{errors.descricao.message}</p>}
         </label>
+        <label className=' flex flex-col font-medium text-sm gap-1'>
+          Adicione algumas imagens:
+          <input
+            multiple
+            {...register('imagens')}
+            type='file'
+            className=' px-2 py-3 border rounded-md font-light'
+          />
+          {errors.imagens && <p>{errors.imagens.message}</p>}
+        </label>
+
         <button
           disabled={isSubmitting}
           className={`${
