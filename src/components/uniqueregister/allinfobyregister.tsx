@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { IoCloseSharp } from 'react-icons/io5';
-import { getRegisterById } from '../api/api';
-import Tag from './tag';
-import RiskAssessment from './graphcs/riskassessment';
-import SliceOfBody from './graphcs/sliceofbody';
+import { getRegisterById } from '../../api/api';
+import Tag from '../tag';
+import RiskAssessment from '../graphcs/riskassessment';
+import SliceOfBody from '../graphcs/sliceofbody';
+import CarouselRegister from './carouselregister';
 
 const AllInformationsByRegister = ({
   idRegister,
@@ -227,6 +228,23 @@ const AllInformationsByRegister = ({
               </div>
             </div>
           )}
+
+          {data.Imagens && data.Imagens.length > 0 ? (
+            <div className=' mt-2 flex flex-col w-full gap-2'>
+              <h2 className=' mb-1 text-sm font-bold'>imagens</h2>
+              <div className=' flex  items-center gap-2 '>
+                <CarouselRegister listImgs={data.Imagens} />
+                {/* {data.Imagens.map((image) => (
+                  <img
+                    crossOrigin='anonymous'
+                    key={image.id}
+                    src={`http://localhost:8080/${image.path}`}
+                    alt='teste'
+                  />
+                ))} */}
+              </div>
+            </div>
+          ) : null}
         </section>
       </main>
     );

@@ -7,7 +7,13 @@ const DotsNextAndPrev = ({
   nextSlide,
   active,
 }: {
-  register: TypeRegister[];
+  register:
+    | TypeRegister[]
+    | {
+        id: number;
+        path: string;
+        registerId: number;
+      }[];
   active: number;
   prevSlide: () => void;
   nextSlide: () => void;
@@ -23,14 +29,25 @@ const DotsNextAndPrev = ({
             <IoIosArrowBack size={15} />
           </button>
           <nav className=' flex items-center justify-center gap-1'>
-            {register.map((dots: TypeRegister, index) => (
-              <div
-                key={dots.id}
-                className={`w-2 h-1 ${
-                  active === index ? 'bg-emerald-500' : 'bg-slate-200'
-                }  rounded`}
-              ></div>
-            ))}
+            {register.map(
+              (
+                dots:
+                  | TypeRegister
+                  | {
+                      id: number;
+                      path: string;
+                      registerId: number;
+                    },
+                index
+              ) => (
+                <div
+                  key={dots.id}
+                  className={`w-2 h-1 ${
+                    active === index ? 'bg-emerald-500' : 'bg-slate-200'
+                  }  rounded`}
+                ></div>
+              )
+            )}
           </nav>
 
           <button

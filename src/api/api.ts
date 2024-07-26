@@ -23,7 +23,9 @@ export const getRegisterById = async (idRegister: number | null) => {
     );
 
     const register: TypeRegister = await response.json();
+
     console.log(register);
+
     return register;
   }
 };

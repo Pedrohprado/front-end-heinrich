@@ -30,6 +30,8 @@ export interface TypeRegister {
   fatorRiscoAcidente: number | null;
   dataValidacaoTST: Date | string | null;
   validadorTSTId: null | number;
+
+  Imagens: { id: number; path: string; registerId: number }[] | [];
 }
 
 export interface OcorrenciasPorNivel {

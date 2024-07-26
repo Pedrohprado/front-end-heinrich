@@ -18,7 +18,7 @@ const Carousel = ({
 
   //construir um filtro onde vai separar por categoria os registros
   useEffect(() => {
-    console.log(register);
+    // console.log(register);
     const ocorrenciasPorNivel: OcorrenciasPorNivel = {};
 
     register.forEach((item) => {
@@ -30,7 +30,7 @@ const Carousel = ({
       ocorrenciasPorNivel[nivelDoOcorrido].push(item);
     });
     setOccorrence(ocorrenciasPorNivel);
-    console.log(ocorrenciasPorNivel);
+    console.log(ocorrenciasPorNivel, 'oi');
   }, [register]);
 
   return (

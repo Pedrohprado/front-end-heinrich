@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { TypeRegister } from '../../types/typesRegisters';
-import AllInformationsByRegister from '../allinfobyregister';
+import AllInformationsByRegister from '../uniqueregister/allinfobyregister';
 import DotsNextAndPrev from './dotsnextandprev';
 
 const RegisterCard = ({
