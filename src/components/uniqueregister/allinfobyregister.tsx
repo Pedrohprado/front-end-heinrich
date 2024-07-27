@@ -234,14 +234,6 @@ const AllInformationsByRegister = ({
               <h2 className=' mb-1 text-sm font-bold'>imagens</h2>
               <div className=' flex  items-center gap-2 '>
                 <CarouselRegister listImgs={data.Imagens} />
-                {/* {data.Imagens.map((image) => (
-                  <img
-                    crossOrigin='anonymous'
-                    key={image.id}
-                    src={`http://localhost:8080/${image.path}`}
-                    alt='teste'
-                  />
-                ))} */}
               </div>
             </div>
           ) : null}

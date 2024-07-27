@@ -7,6 +7,24 @@ import { TypeRegister } from '../types/typesRegisters';
 
 export const url: string = import.meta.env.VITE_BASE_URL_URL_API;
 
+export const deleteImgById = async (imageId: number) => {
+  const token = localStorage.getItem('token');
+
+  if (token) {
+    console.log(`${url}/imagens/deleteuniqueimage/${imageId}`);
+    const reponse = await fetch(`${url}/imagens/deleteuniqueimage/${imageId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const status = await reponse.json();
+
+    return status;
+  }
+};
+
 export const getRegisterById = async (idRegister: number | null) => {
   const token = localStorage.getItem('token');
 
