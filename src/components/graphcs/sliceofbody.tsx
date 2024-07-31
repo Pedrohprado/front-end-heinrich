@@ -36,7 +36,7 @@ const SliceOfBody = ({ bodyPart }: { bodyPart: BodyPart }) => {
     'braço esquerdo': { x: number; y: number; width: number; height: number };
   } = {
     cabeca: { x: 57, y: 25, width: 20, height: 20 },
-    olhos: { x: 58, y: 25, width: 23, height: 10 },
+    olhos: { x: 23.5, y: 8, width: 20, height: 9 },
     'mão direita': { x: 102, y: 148, width: 20, height: 20 },
     'mão esquerda': { x: 12, y: 148, width: 20, height: 20 },
     'pé direito': { x: 77, y: 285, width: 20, height: 20 },
@@ -68,8 +68,8 @@ const SliceOfBody = ({ bodyPart }: { bodyPart: BodyPart }) => {
           onClick={mouseEnter}
           className=' absolute rounded-full bg-red-500 opacity-75'
           style={{
-            left: circles[bodyPart].x,
-            top: circles[bodyPart].y,
+            left: `${circles[bodyPart].x}%`,
+            top: `${circles[bodyPart].y}%`,
             width: circles[bodyPart].width,
             height: circles[bodyPart].height,
             transform: 'translate(-50%, -50%)',
