@@ -171,7 +171,7 @@ const AllInformationsByRegister = ({
                     <h2 className=' font-semibold text-sm'>
                       partes do corpo atingida
                     </h2>
-                    <SliceOfBody />
+                    <SliceOfBody bodyPart={data.parteDoCorpoAtingida} />
                   </div>
                 ) : null}
                 <div className=' flex  flex-col gap-1 w-full mt-2'>

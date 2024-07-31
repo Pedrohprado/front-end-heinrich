@@ -1,3 +1,14 @@
+export type BodyPart =
+  | 'cabeca'
+  | 'olhos'
+  | 'mão direita'
+  | 'mão esquerda'
+  | 'pé direito'
+  | 'pé esquerdo'
+  | 'tronco'
+  | 'braço direito'
+  | 'braço esquerdo';
+
 export interface TypeRegister {
   id: number;
   createdById: number;
@@ -14,7 +25,7 @@ export interface TypeRegister {
 
   dataEntradaNoAmbulatorio: Date | string | null;
   enfermeiroResponsavel: string | null;
-  parteDoCorpoAtingida: string | null;
+  parteDoCorpoAtingida: BodyPart | null;
   lateralidadeDoCorpo: string | null;
   NaturezaDaLesao: string | null;
   cid: string | null;
