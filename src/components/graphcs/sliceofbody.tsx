@@ -1,15 +1,6 @@
 import { useState } from 'react';
 import Body from '../svg/body';
-type BodyPart =
-  | 'cabeça'
-  | 'olhos'
-  | 'mão direita'
-  | 'mão esquerda'
-  | 'pé direito'
-  | 'pé esquerdo'
-  | 'tronco'
-  | 'braço direito'
-  | 'braço esquerdo';
+import { BodyPart } from '../../types/typesRegisters';
 
 const SliceOfBody = ({ bodyPart }: { bodyPart: BodyPart }) => {
   const [isActive, setActive] = useState<boolean>(false);

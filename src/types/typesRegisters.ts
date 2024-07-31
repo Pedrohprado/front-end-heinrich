@@ -1,5 +1,5 @@
 export type BodyPart =
-  | 'cabeca'
+  | 'cabeça'
   | 'olhos'
   | 'mão direita'
   | 'mão esquerda'
