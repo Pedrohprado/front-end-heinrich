@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Body from '../svg/body';
 type BodyPart =
-  | 'cabeca'
+  | 'cabeça'
   | 'olhos'
   | 'mão direita'
   | 'mão esquerda'
@@ -25,7 +25,7 @@ const SliceOfBody = ({ bodyPart }: { bodyPart: BodyPart }) => {
   // };
 
   const circles: {
-    cabeca: { x: number; y: number; width: number; height: number };
+    cabeça: { x: number; y: number; width: number; height: number };
     olhos: { x: number; y: number; width: number; height: number };
     'mão direita': { x: number; y: number; width: number; height: number };
     'mão esquerda': { x: number; y: number; width: number; height: number };
@@ -35,7 +35,7 @@ const SliceOfBody = ({ bodyPart }: { bodyPart: BodyPart }) => {
     'braço direito': { x: number; y: number; width: number; height: number };
     'braço esquerdo': { x: number; y: number; width: number; height: number };
   } = {
-    cabeca: { x: 57, y: 25, width: 20, height: 20 },
+    cabeça: { x: 57, y: 25, width: 20, height: 20 },
     olhos: { x: 23.5, y: 8, width: 20, height: 9 },
     'mão direita': { x: 102, y: 148, width: 20, height: 20 },
     'mão esquerda': { x: 12, y: 148, width: 20, height: 20 },
