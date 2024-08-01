@@ -26,15 +26,15 @@ const SliceOfBody = ({ bodyPart }: { bodyPart: BodyPart }) => {
     'braço direito': { x: number; y: number; width: number; height: number };
     'braço esquerdo': { x: number; y: number; width: number; height: number };
   } = {
-    cabeça: { x: 57, y: 25, width: 20, height: 20 },
-    olhos: { x: 23.5, y: 8, width: 20, height: 9 },
-    'mão direita': { x: 102, y: 148, width: 20, height: 20 },
-    'mão esquerda': { x: 12, y: 148, width: 20, height: 20 },
-    'pé direito': { x: 77, y: 285, width: 20, height: 20 },
-    'pé esquerdo': { x: 38, y: 285, width: 20, height: 20 },
-    tronco: { x: 57, y: 100, width: 20, height: 20 },
-    'braço direito': { x: 90, y: 100, width: 20, height: 20 },
-    'braço esquerdo': { x: 25, y: 100, width: 20, height: 20 },
+    cabeça: { x: 23.5, y: 5, width: 24, height: 21 },
+    olhos: { x: 19, y: 7, width: 23, height: 8 },
+    'mão esquerda': { x: 42, y: 49, width: 30, height: 30 },
+    'mão direita': { x: 5, y: 49, width: 30, height: 30 },
+    'pé esquerdo': { x: 32, y: 95, width: 30, height: 30 },
+    'pé direito': { x: 16, y: 95, width: 30, height: 30 },
+    tronco: { x: 14, y: 18, width: 45, height: 90 },
+    'braço esquerdo': { x: 33, y: 22, width: 20, height: 70 },
+    'braço direito': { x: 6, y: 22, width: 20, height: 70 },
   };
 
   // const getCircleSize = (value) => {
@@ -52,26 +52,40 @@ const SliceOfBody = ({ bodyPart }: { bodyPart: BodyPart }) => {
     setActive(!isActive);
   }
   return (
-    <div className=' relative w-full max-w-sm mx-auto'>
+    <div className='relative w-full max-w-sm mx-auto'>
       <Body />
       {bodyPart && (
         <div
           onClick={mouseEnter}
-          className=' absolute rounded-full bg-red-500 opacity-75'
+          className=' z-10 absolute rounded-full bg-red-500 opacity-75'
           style={{
             left: `${circles[bodyPart].x}%`,
             top: `${circles[bodyPart].y}%`,
             width: circles[bodyPart].width,
             height: circles[bodyPart].height,
-            transform: 'translate(-50%, -50%)',
+            transform: `${
+              bodyPart === 'braço direito'
+                ? 'rotate(10deg)'
+                : bodyPart === 'braço esquerdo'
+                ? 'rotate(-10deg)'
+                : 'rotate(0deg)'
+            } `,
           }}
-        ></div>
-      )}
-      {isActive ? (
-        <div className=' top-[10%] left-[20%] absolute bg-slate-100 rounded p-2 flex'>
-          {bodyPart}
+        >
+          {isActive ? (
+            <div
+              style={{
+                opacity: 100,
+                transform: 'rotate(0deg)',
+              }}
+              className=' opacity-100 bottom-[0%] left-[100%] fixed bg-slate-100 rounded p-2 flex'
+            >
+              {bodyPart}
+            </div>
+          ) : null}
         </div>
-      ) : null}
+      )}
+
       {/* {Object.keys(data).map((part) => (
         <div
           key={part}
