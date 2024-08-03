@@ -9,6 +9,7 @@ import {
   TypeValidationAmbulatory,
   validationFormSchemaByAmbulatory,
 } from '../../services/zodschemas';
+import InputPartsOfBody from './inputpartsofbody';
 
 const FormValidationAmbulatory = ({ idRegister }: { idRegister: number }) => {
   const { mutateAsync, data, isSuccess } = useMutation({
@@ -18,9 +19,13 @@ const FormValidationAmbulatory = ({ idRegister }: { idRegister: number }) => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<TypeValidationAmbulatory>({
     mode: 'onChange',
+    defaultValues: {
+      parteDoCorpoAtingida: [],
+    },
     resolver: zodResolver(validationFormSchemaByAmbulatory),
   });
 
@@ -30,7 +35,7 @@ const FormValidationAmbulatory = ({ idRegister }: { idRegister: number }) => {
     console.log(body);
 
     if (isId) {
-      mutateAsync({ isId, idRegister, body });
+      // mutateAsync({ isId, idRegister, body });
     }
   }
   return (
@@ -62,7 +67,46 @@ const FormValidationAmbulatory = ({ idRegister }: { idRegister: number }) => {
             <p>{errors.enfermeiroResponsavel.message}</p>
           )}
         </label>
-        <label className='flex flex-col font-medium text-sm gap-1'>
+        <InputPartsOfBody control={control} />
+        {/* <label className='flex flex-col font-medium text-sm gap-1'>
+          Seleciona as partes do corpo atingida
+          <Controller
+            name='parteDoCorpoAtingida'
+            control={control}
+            render={({ field }) => {
+              const bodyParts = field.value || [];
+              console.log(bodyParts);
+              return (
+                <div>
+                  {['olhos', 'cabeça', 'mãos', 'peito', 'pés'].map((part) => (
+                    <label key={part} className='flex items-center gap-2'>
+                      <input
+                        type='checkbox'
+                        value={part}
+                        checked={bodyParts.includes(part)}
+                        onChange={(e) => {
+                          const { checked, value } = e.target;
+                          if (checked) {
+                            field.onChange([...bodyParts, value]);
+                          } else {
+                            field.onChange(
+                              bodyParts.filter((item) => item !== value)
+                            );
+                          }
+                        }}
+                      />
+                      {part}
+                    </label>
+                  ))}
+                </div>
+              );
+            }}
+          />
+          {errors.parteDoCorpoAtingida && (
+            <p>{errors.parteDoCorpoAtingida.message}</p>
+          )}
+        </label> */}
+        {/* <label className='flex flex-col font-medium text-sm gap-1'>
           parte do corpo atingida(colocar o corpo para selecionar)
           <select
             {...register('parteDoCorpoAtingida')}
@@ -78,7 +122,7 @@ const FormValidationAmbulatory = ({ idRegister }: { idRegister: number }) => {
           {errors.parteDoCorpoAtingida && (
             <p>{errors.parteDoCorpoAtingida.message}</p>
           )}
-        </label>
+        </label> */}
         <label className='flex flex-col font-medium text-sm gap-1'>
           lateralidade do corpo
           <select

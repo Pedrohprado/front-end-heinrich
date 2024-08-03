@@ -15,7 +15,7 @@ export const validationFormSchemaByTst = z.object({
 export const validationFormSchemaByAmbulatory = z.object({
   dataEntradaNoAmbulatorio: z.string(),
   enfermeiroResponsavel: z.string().min(4, 'informe o(a) enfermeiro(a)'),
-  parteDoCorpoAtingida: z.string(),
+  parteDoCorpoAtingida: z.array(z.string()),
   lateralidadeDoCorpo: z.string(),
   NaturezaDaLesao: z.string(),
   cid: z.string().min(2),
