@@ -2,7 +2,15 @@ import { useState } from 'react';
 import Body from '../svg/body';
 import { BodyPart } from '../../types/typesRegisters';
 
-const SliceOfBody = ({ bodyPart }: { bodyPart: BodyPart }) => {
+const SliceOfBody = ({
+  BodyParts,
+}: {
+  BodyParts: {
+    id: number;
+    parte: BodyPart[];
+    registerId: number;
+  }[];
+}) => {
   const [isActive, setActive] = useState<boolean>(false);
   // const data = {
   //   cabeca: 25,
@@ -51,54 +59,47 @@ const SliceOfBody = ({ bodyPart }: { bodyPart: BodyPart }) => {
   function mouseEnter() {
     setActive(!isActive);
   }
+
   return (
     <div className='relative w-full max-w-sm mx-auto'>
       <Body />
-      {bodyPart && (
-        <div
-          onClick={mouseEnter}
-          className=' z-10 absolute rounded-full bg-red-500 opacity-75'
-          style={{
-            left: `${circles[bodyPart].x}%`,
-            top: `${circles[bodyPart].y}%`,
-            width: circles[bodyPart].width,
-            height: circles[bodyPart].height,
-            transform: `${
-              bodyPart === 'braço direito'
-                ? 'rotate(10deg)'
-                : bodyPart === 'braço esquerdo'
-                ? 'rotate(-10deg)'
-                : 'rotate(0deg)'
-            } `,
-          }}
-        >
-          {isActive ? (
-            <div
-              style={{
-                opacity: 100,
-                transform: 'rotate(0deg)',
-              }}
-              className=' opacity-100 bottom-[0%] left-[100%] fixed bg-slate-100 rounded p-2 flex'
-            >
-              {bodyPart}
-            </div>
-          ) : null}
-        </div>
-      )}
-
-      {/* {Object.keys(data).map((part) => (
-        <div
-          key={part}
-          className=' absolute rounded-full bg-red-500 opacity-50'
-          style={{
-            left: circles[part].x,
-            top: circles[part].y,
-            width: `${getCircleSize(data[part])}px`,
-            height: `${getCircleSize(data[part])}px`,
-            transform: 'translate(-50%, -50%)',
-          }}
-        ></div>
-      ))} */}
+      {BodyParts &&
+        BodyParts.map((item) => (
+          <div key={item.id}>
+            {item.parte.map((part, index) => (
+              <div
+                key={index}
+                onClick={mouseEnter}
+                className=' z-10 absolute rounded-full bg-red-500 opacity-75'
+                style={{
+                  left: `${circles[part].x}%`,
+                  top: `${circles[part].y}%`,
+                  width: circles[part].width,
+                  height: circles[part].height,
+                  transform: `${
+                    part === 'braço direito'
+                      ? 'rotate(10deg)'
+                      : part === 'braço esquerdo'
+                      ? 'rotate(-10deg)'
+                      : 'rotate(0deg)'
+                  } `,
+                }}
+              >
+                {isActive ? (
+                  <div
+                    style={{
+                      opacity: 100,
+                      transform: 'rotate(0deg)',
+                    }}
+                    className=' opacity-100 bottom-[0%] left-[100%] fixed bg-slate-100 rounded p-2 flex'
+                  >
+                    {part}
+                  </div>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        ))}
     </div>
   );
 };

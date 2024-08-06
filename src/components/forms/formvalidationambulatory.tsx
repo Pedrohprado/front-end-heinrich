@@ -35,7 +35,7 @@ const FormValidationAmbulatory = ({ idRegister }: { idRegister: number }) => {
     console.log(body);
 
     if (isId) {
-      // mutateAsync({ isId, idRegister, body });
+      mutateAsync({ isId, idRegister, body });
     }
   }
   return (

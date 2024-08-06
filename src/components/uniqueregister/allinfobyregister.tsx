@@ -166,12 +166,12 @@ const AllInformationsByRegister = ({
                     </p>
                   </div>
                 </div>
-                {data.parteDoCorpoAtingida ? (
+                {data.BodyParts && data.BodyParts.length > 0 ? (
                   <div className=' flex  flex-col gap-1 w-full'>
                     <h2 className=' font-semibold text-sm'>
                       partes do corpo atingida
                     </h2>
-                    <SliceOfBody bodyPart={'braço direito'} />
+                    <SliceOfBody BodyParts={data.BodyParts} />
                   </div>
                 ) : null}
                 <div className=' flex  flex-col gap-1 w-full mt-2'>

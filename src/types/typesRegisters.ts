@@ -25,7 +25,6 @@ export interface TypeRegister {
 
   dataEntradaNoAmbulatorio: Date | string | null;
   enfermeiroResponsavel: string | null;
-  parteDoCorpoAtingida: BodyPart | null;
   lateralidadeDoCorpo: string | null;
   NaturezaDaLesao: string | null;
   cid: string | null;
@@ -42,6 +41,7 @@ export interface TypeRegister {
   dataValidacaoTST: Date | string | null;
   validadorTSTId: null | number;
 
+  BodyParts: { id: number; parte: BodyPart; registerId: number }[] | [];
   Imagens: { id: number; path: string; registerId: number }[] | [];
 }
 
