@@ -7,21 +7,11 @@ const SliceOfBody = ({
 }: {
   BodyParts: {
     id: number;
-    parte: BodyPart[];
+    parte: BodyPart;
     registerId: number;
   }[];
 }) => {
   const [isActive, setActive] = useState<boolean>(false);
-  // const data = {
-  //   cabeca: 25,
-  //   'mão direita': 60,
-  //   'mão esquerda': 60,
-  //   'pé direito': 60,
-  //   'pé esquerdo': 60,
-  //   tronco: 120,
-  //   'braço direito': 100,
-  //   'braço esquerdo': 90,
-  // };
 
   const circles: {
     cabeça: { x: number; y: number; width: number; height: number };
@@ -34,7 +24,7 @@ const SliceOfBody = ({
     'braço direito': { x: number; y: number; width: number; height: number };
     'braço esquerdo': { x: number; y: number; width: number; height: number };
   } = {
-    cabeça: { x: 23.5, y: 5, width: 24, height: 21 },
+    cabeça: { x: 19, y: 1, width: 24, height: 21 },
     olhos: { x: 19, y: 7, width: 23, height: 8 },
     'mão esquerda': { x: 42, y: 49, width: 30, height: 30 },
     'mão direita': { x: 5, y: 49, width: 30, height: 30 },
@@ -45,17 +35,6 @@ const SliceOfBody = ({
     'braço direito': { x: 6, y: 22, width: 20, height: 70 },
   };
 
-  // const getCircleSize = (value) => {
-  //   // Define um tamanho máximo para o círculo
-  //   const maxSize = 100; // Tamanho máximo do círculo em pixels
-
-  //   // Calcula o tamanho proporcional com base no valor
-  //   // Ajuste o divisor conforme necessário para escalar o tamanho
-  //   const proportionalSize = value / 2; // Proporção para escalonar o tamanho
-
-  //   // Retorna o menor valor entre o tamanho proporcional e o tamanho máximo
-  //   return Math.min(proportionalSize, maxSize);
-  // };
   function mouseEnter() {
     setActive(!isActive);
   }
@@ -65,39 +44,35 @@ const SliceOfBody = ({
       <Body />
       {BodyParts &&
         BodyParts.map((item) => (
-          <div key={item.id}>
-            {item.parte.map((part, index) => (
+          <div
+            key={item.id}
+            onClick={mouseEnter}
+            className=' z-10 absolute rounded-full bg-red-500 opacity-75'
+            style={{
+              left: `${circles[item.parte].x}%`,
+              top: `${circles[item.parte].y}%`,
+              width: circles[item.parte].width,
+              height: circles[item.parte].height,
+              transform: `${
+                item.parte === 'braço direito'
+                  ? 'rotate(10deg)'
+                  : item.parte === 'braço esquerdo'
+                  ? 'rotate(-10deg)'
+                  : 'rotate(0deg)'
+              } `,
+            }}
+          >
+            {isActive ? (
               <div
-                key={index}
-                onClick={mouseEnter}
-                className=' z-10 absolute rounded-full bg-red-500 opacity-75'
                 style={{
-                  left: `${circles[part].x}%`,
-                  top: `${circles[part].y}%`,
-                  width: circles[part].width,
-                  height: circles[part].height,
-                  transform: `${
-                    part === 'braço direito'
-                      ? 'rotate(10deg)'
-                      : part === 'braço esquerdo'
-                      ? 'rotate(-10deg)'
-                      : 'rotate(0deg)'
-                  } `,
+                  opacity: 100,
+                  transform: 'rotate(0deg)',
                 }}
+                className=' opacity-100 bottom-[0%] left-[100%] fixed bg-slate-100 rounded p-2 flex'
               >
-                {isActive ? (
-                  <div
-                    style={{
-                      opacity: 100,
-                      transform: 'rotate(0deg)',
-                    }}
-                    className=' opacity-100 bottom-[0%] left-[100%] fixed bg-slate-100 rounded p-2 flex'
-                  >
-                    {part}
-                  </div>
-                ) : null}
+                {item.parte}
               </div>
-            ))}
+            ) : null}
           </div>
         ))}
     </div>
